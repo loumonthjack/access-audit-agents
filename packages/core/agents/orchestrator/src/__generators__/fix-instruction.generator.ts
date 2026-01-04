@@ -323,7 +323,7 @@ export const safeFixInstructionArb: fc.Arbitrary<FixInstruction> = fc.oneof(
             })
         })
     ),
-    // Content fix with non-empty text on interactive element
+    // Content fix with non-empty, non-whitespace text on interactive element
     interactiveElementSelectorArb.chain(selector =>
         fc.record({
             type: fc.constant('content' as const),
@@ -332,7 +332,8 @@ export const safeFixInstructionArb: fc.Arbitrary<FixInstruction> = fc.oneof(
             reasoning: reasoningArb,
             params: fc.record({
                 selector: fc.constant(selector),
-                innerText: fc.string({ minLength: 1, maxLength: 100 }),
+                // Use stringMatching to ensure at least one non-whitespace character
+                innerText: fc.stringMatching(/^[a-zA-Z0-9][a-zA-Z0-9 ]{0,99}$/),
                 originalTextHash: sha256HashArb
             })
         })

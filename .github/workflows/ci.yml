@@ -49,6 +49,9 @@ jobs:
           rm -f package-lock.json
           npm install --legacy-peer-deps
 
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
       - name: Run type checking
         run: npm run typecheck
 
