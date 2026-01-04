@@ -89,7 +89,7 @@ cd apps/web && npm install && npm run dev
 **API** (`apps/api/.env`):
 ```env
 PORT=3003
-DATABASE_URL=postgresql://postgres:localdev123@localhost:5434/accessagents
+DATABASE_URL=postgresql://postgres:localdev123@localhost:5432/accessagents
 JWT_SECRET=local-dev-secret
 AWS_REGION=us-east-1
 # Optional: Add BEDROCK_AGENT_ID and BEDROCK_AGENT_ALIAS_ID for real AI scanning
