@@ -9,7 +9,7 @@
     "packages/core/agents/*"
   ],
   "scripts": {
-    "prepare": "lefthook install",
+    "prepare": "lefthook install || true",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
