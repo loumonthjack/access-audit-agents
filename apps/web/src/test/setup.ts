@@ -1,8 +1,12 @@
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
-import { afterEach, beforeAll, afterAll, beforeEach } from 'vitest';
+import { afterEach, beforeAll, afterAll, beforeEach, expect } from 'vitest';
+import * as matchers from 'vitest-axe/matchers';
 import { server } from './mocks/server';
 import { resetMockData, mockWsServer } from './mocks/handlers';
+
+// Extend Vitest's expect with axe matchers
+expect.extend(matchers);
 
 // Polyfill ResizeObserver for HeadlessUI components
 global.ResizeObserver = class ResizeObserver {
