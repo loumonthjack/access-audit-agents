@@ -96,7 +96,7 @@ export class ApiClient {
     // Build headers
     const headers: Record<string, string> = {
       ...this.defaultHeaders,
-      ...customHeaders,
+      ...(customHeaders as Record<string, string> | undefined),
     };
 
     // Inject auth token if available and not skipped

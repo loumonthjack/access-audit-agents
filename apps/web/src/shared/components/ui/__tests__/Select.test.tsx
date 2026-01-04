@@ -2,10 +2,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
-import { toHaveNoViolations } from 'vitest-axe/matchers';
+import 'vitest-axe/extend-expect';
 import { Select, type SelectOption } from '../Select';
-
-expect.extend({ toHaveNoViolations });
 
 const options: SelectOption[] = [
   { value: 'mobile', label: 'Mobile' },

@@ -8,6 +8,7 @@ export interface NavLink {
   label: string;
   href: string;
   active?: boolean;
+  icon?: React.ReactNode;
 }
 
 export interface HeaderProps {

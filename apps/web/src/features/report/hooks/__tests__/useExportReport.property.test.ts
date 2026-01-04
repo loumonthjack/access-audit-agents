@@ -113,18 +113,18 @@ const remediationReportArbitrary: fc.Arbitrary<RemediationReport> = fc
   .chain(({ fixCount, skippedCount, humanReviewCount }) => {
     const fixesArb =
       fixCount === 0
-        ? fc.constant([])
-        : fc.tuple(...Array.from({ length: fixCount }, (_, i) => appliedFixArbitrary(i)));
+        ? fc.constant([] as AppliedFix[])
+        : fc.tuple(...Array.from({ length: fixCount }, (_, i) => appliedFixArbitrary(i))).map(arr => [...arr]);
     const skippedArb =
       skippedCount === 0
-        ? fc.constant([])
-        : fc.tuple(...Array.from({ length: skippedCount }, (_, i) => skippedViolationArbitrary(i)));
+        ? fc.constant([] as SkippedViolation[])
+        : fc.tuple(...Array.from({ length: skippedCount }, (_, i) => skippedViolationArbitrary(i))).map(arr => [...arr]);
     const humanReviewArb =
       humanReviewCount === 0
-        ? fc.constant([])
+        ? fc.constant([] as HumanReviewItem[])
         : fc.tuple(
-            ...Array.from({ length: humanReviewCount }, (_, i) => humanReviewItemArbitrary(i))
-          );
+          ...Array.from({ length: humanReviewCount }, (_, i) => humanReviewItemArbitrary(i))
+        ).map(arr => [...arr]);
 
     return fc.record({
       sessionId: fc.uuid(),
@@ -132,10 +132,10 @@ const remediationReportArbitrary: fc.Arbitrary<RemediationReport> = fc
       viewport: viewportArbitrary,
       timestamp: dateArbitrary,
       duration: fc.integer({ min: 1000, max: 300000 }),
-      fixes: fixesArb.map((arr) => (Array.isArray(arr) ? arr : [])),
-      skipped: skippedArb.map((arr) => (Array.isArray(arr) ? arr : [])),
-      humanReview: humanReviewArb.map((arr) => (Array.isArray(arr) ? arr : [])),
-      violations: fc.constant([]), // Empty violations array for testing
+      fixes: fixesArb,
+      skipped: skippedArb,
+      humanReview: humanReviewArb,
+      violations: fc.constant([] as RemediationReport['violations']),
     });
   })
   .map((report) => ({

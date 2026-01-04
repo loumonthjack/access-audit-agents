@@ -6,7 +6,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
-import React from 'react';
+import type { ReactNode } from 'react';
 import { queryKeys } from '@/config/queryClient';
 import { getSession } from '@/features/scan/api/scanApi';
 import { getReport } from '@/features/report/api/reportApi';
@@ -39,7 +39,7 @@ describe('Query + Router Integration Tests', () => {
             queryFn: () => getSession(sessionId),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -69,7 +69,7 @@ describe('Query + Router Integration Tests', () => {
             queryFn: () => getReport(sessionId),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -96,7 +96,7 @@ describe('Query + Router Integration Tests', () => {
             queryFn: () => getSession(sessionId),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -117,7 +117,7 @@ describe('Query + Router Integration Tests', () => {
             queryFn: () => listSessions(1, 10),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -147,7 +147,7 @@ describe('Query + Router Integration Tests', () => {
             queryFn: () => getSession(sessionId),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -179,7 +179,7 @@ describe('Query + Router Integration Tests', () => {
             staleTime: 60000, // 1 minute
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -204,7 +204,7 @@ describe('Query + Router Integration Tests', () => {
             queryFn: () => getSession(sessionId1),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -222,7 +222,7 @@ describe('Query + Router Integration Tests', () => {
             queryFn: () => getSession(sessionId2),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -265,7 +265,7 @@ describe('Query + Router Integration Tests', () => {
             queryFn: () => getSession(sessionId),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }

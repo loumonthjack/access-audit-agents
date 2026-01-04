@@ -138,7 +138,7 @@ export function FixCard({ fix, onCopy }: FixCardProps) {
         </Button>
       </CardHeader>
 
-      <CardContent padding="none" className="p-0">
+      <CardContent className="p-0">
         {/* Reasoning section */}
         <div className="border-b border-neutral-200 bg-neutral-50 px-4 py-3">
           <h5 className="mb-1 text-sm font-medium text-neutral-700">AI Reasoning</h5>

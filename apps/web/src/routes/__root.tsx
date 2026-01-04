@@ -12,17 +12,16 @@ import { MainLayout } from '@/shared/components/layout/MainLayout';
 import { ConnectionBanner } from '@/shared/components/feedback/ConnectionBanner';
 import { ErrorBoundary } from '@/shared/components/layout/ErrorBoundary';
 import { UserMenu } from '@/features/auth/components/UserMenu';
-import { ModeIndicator } from '@/features/auth/components/ModeIndicator';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useApiAuth } from '@/features/auth/hooks/useApiAuth';
 import { useConnectionStore } from '@/shared/store/connectionStore';
 import { isProtectedRoute } from '@/config/router';
-import type { NavItem } from '@/shared/components/layout/Sidebar';
+import type { NavLink } from '@/shared/components/layout/Header';
 
 /**
  * Navigation items for the sidebar
  */
-const navItems: NavItem[] = [
+const navItems: NavLink[] = [
   {
     id: 'home',
     label: 'New Scan',
@@ -73,7 +72,7 @@ const navItems: NavItem[] = [
 /**
  * Get navigation items with active state based on current path
  */
-function useNavItems(): NavItem[] {
+function useNavItems(): NavLink[] {
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -94,17 +93,6 @@ function AuthenticatedUserMenu() {
   }
 
   return <UserMenu user={user} onLogout={logout} isLoading={isLoading} />;
-}
-
-/**
- * Sidebar footer with mode indicator
- */
-function SidebarFooter() {
-  return (
-    <div className="flex items-center justify-center">
-      <ModeIndicator />
-    </div>
-  );
 }
 
 /**
@@ -190,9 +178,8 @@ function AppLayout() {
   return (
     <AuthGuard>
       <MainLayout
-        navItems={items}
+        navLinks={items}
         userMenu={<AuthenticatedUserMenu />}
-        sidebarFooter={<SidebarFooter />}
         banner={<ConnectionStatusBanner />}
         hideHeader={hideHeader}
       >

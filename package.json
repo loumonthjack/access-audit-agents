@@ -17,7 +17,10 @@
     "format:check": "npm run format:check --workspaces --if-present"
   },
   "devDependencies": {
-    "lefthook": "^1.11.13"
+    "@types/node": "^20.10.0",
+    "lefthook": "^1.11.13",
+    "typescript": "^5.6.0",
+    "vite": "^7.2.4"
   },
   "engines": {
     "node": ">=18.0.0"

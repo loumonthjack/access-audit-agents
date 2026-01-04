@@ -2,11 +2,9 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
-import { toHaveNoViolations } from 'vitest-axe/matchers';
+import 'vitest-axe/extend-expect';
 import { EmptyState, NoResultsEmptyState, NoDataEmptyState, ErrorEmptyState } from '../EmptyState';
 import { Button } from '../../ui/Button';
-
-expect.extend({ toHaveNoViolations });
 
 describe('EmptyState', () => {
   describe('Accessibility', () => {

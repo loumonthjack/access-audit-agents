@@ -187,6 +187,7 @@ export function createMockReport(overrides: Partial<RemediationReport> = {}): Re
       skippedCount: 1,
       humanReviewCount: 1,
     },
+    violations: [],
     fixes: [createMockFix()],
     skipped: [
       {

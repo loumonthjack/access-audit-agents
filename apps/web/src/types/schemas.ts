@@ -240,7 +240,7 @@ export function createPaginatedResponseSchema<T extends z.ZodTypeAny>(itemSchema
 export const ApiErrorSchema = z.object({
   code: z.string().min(1),
   message: z.string().min(1),
-  details: z.record(z.unknown()).optional(),
+  details: z.record(z.string(), z.unknown()).optional(),
 });
 
 /**

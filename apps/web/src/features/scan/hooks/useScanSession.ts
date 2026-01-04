@@ -43,7 +43,7 @@ export function useScanSession(options: UseScanSessionOptions): UseScanSessionRe
         .getSessionViolations(sessionId)
         .then((existingViolations) => {
           if (existingViolations && existingViolations.length > 0) {
-            setViolations(existingViolations);
+            setViolations(existingViolations as Violation[]);
           }
           setViolationsLoaded(true);
         })

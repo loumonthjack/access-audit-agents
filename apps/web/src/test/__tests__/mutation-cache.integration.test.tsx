@@ -12,7 +12,7 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import React from 'react';
+import type { ReactNode } from 'react';
 import { queryKeys } from '@/config/queryClient';
 import { startScan, getSession } from '@/features/scan/api/scanApi';
 import { listSessions, deleteSession } from '@/features/history/api/historyApi';
@@ -50,7 +50,7 @@ describe('Mutation + Cache Integration Tests', () => {
           });
         },
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -82,7 +82,7 @@ describe('Mutation + Cache Integration Tests', () => {
           });
         },
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -107,7 +107,7 @@ describe('Mutation + Cache Integration Tests', () => {
             queryFn: () => listSessions(1, 10),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -192,7 +192,7 @@ describe('Mutation + Cache Integration Tests', () => {
           });
         },
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -249,7 +249,7 @@ describe('Mutation + Cache Integration Tests', () => {
           });
         },
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -319,7 +319,7 @@ describe('Mutation + Cache Integration Tests', () => {
           });
         },
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -349,7 +349,7 @@ describe('Mutation + Cache Integration Tests', () => {
             queryFn: () => listSessions(1, 10),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -366,7 +366,7 @@ describe('Mutation + Cache Integration Tests', () => {
             queryFn: () => getSession(sessionId),
           }),
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }
@@ -399,7 +399,7 @@ describe('Mutation + Cache Integration Tests', () => {
           });
         },
         {
-          wrapper: ({ children }) => (
+          wrapper: ({ children }: { children: ReactNode }) => (
             <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           ),
         }

@@ -80,7 +80,7 @@ export function ScanCompleteModal({
       </DialogBody>
 
       <DialogFooter className="flex-col sm:flex-row gap-2">
-        <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
+        <Button variant="secondary" onClick={onClose} className="w-full sm:w-auto">
           Stay on Scan
         </Button>
         <Button onClick={onViewReport} className="w-full sm:w-auto">

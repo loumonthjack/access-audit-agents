@@ -14,8 +14,8 @@ import {
   calculateBackoffDelay,
   canReconnect,
   getBackoffSequence,
-  DEFAULT_RECONNECT_CONFIG,
 } from '../reconnect';
+import { DEFAULT_RECONNECT_CONFIG } from '../types';
 
 describe('Property 19: Reconnection with Exponential Backoff', () => {
   /**

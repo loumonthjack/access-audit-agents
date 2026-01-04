@@ -2,10 +2,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
-import { toHaveNoViolations } from 'vitest-axe/matchers';
+import 'vitest-axe/extend-expect';
 import { Input } from '../Input';
-
-expect.extend({ toHaveNoViolations });
 
 describe('Input', () => {
   describe('Accessibility', () => {

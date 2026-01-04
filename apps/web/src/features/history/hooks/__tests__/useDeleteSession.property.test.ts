@@ -258,7 +258,7 @@ describe('Property 21: Query Cache Invalidation on Mutation', () => {
    */
   it('Property 21e: Reports cache is NOT affected by session mutations', async () => {
     await fc.assert(
-      fc.asyncProperty(scanSessionArbitrary, fc.uuid(), async (session, reportId) => {
+      fc.asyncProperty(scanSessionArbitrary, fc.uuid(), async (_session, reportId) => {
         // Pre-populate cache with a report
         const mockReport = { sessionId: reportId, url: 'https://example.com' };
         queryClient.setQueryData(queryKeys.reports.detail(reportId), mockReport);

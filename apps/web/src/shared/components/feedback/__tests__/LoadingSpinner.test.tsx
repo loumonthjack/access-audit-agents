@@ -1,10 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { axe } from 'vitest-axe';
-import { toHaveNoViolations } from 'vitest-axe/matchers';
+import 'vitest-axe/extend-expect';
 import { LoadingSpinner, FullPageLoader, InlineLoader } from '../LoadingSpinner';
-
-expect.extend({ toHaveNoViolations });
 
 describe('LoadingSpinner', () => {
   describe('Accessibility', () => {

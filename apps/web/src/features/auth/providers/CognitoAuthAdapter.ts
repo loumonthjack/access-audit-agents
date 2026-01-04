@@ -29,11 +29,9 @@ export interface CognitoConfig {
  * Requirements: 2.4, 2.5, 2.6, 2.7, 7.1, 7.2
  */
 export class CognitoAuthAdapter implements AuthAdapter {
-  private _config: CognitoConfig;
-  private cachedUser: User | null = null;
-
-  constructor(config: CognitoConfig) {
-    this._config = config;
+  constructor(_config: CognitoConfig) {
+    // Config stored for potential future use (e.g., custom domain handling)
+    void _config;
   }
 
   /**
@@ -65,11 +63,9 @@ export class CognitoAuthAdapter implements AuthAdapter {
         authProvider: this.determineAuthProvider(payload),
       };
 
-      this.cachedUser = user;
       return user;
     } catch {
       // User is not authenticated
-      this.cachedUser = null;
       return null;
     }
   }
@@ -136,7 +132,7 @@ export class CognitoAuthAdapter implements AuthAdapter {
 
       // Initiate federated sign in - this will redirect the user
       await signInWithRedirect({
-        provider: amplifyProvider as 'Google' | 'GitHub',
+        provider: amplifyProvider as 'Google',
       });
 
       // This code won't execute immediately as the user is redirected
@@ -160,14 +156,7 @@ export class CognitoAuthAdapter implements AuthAdapter {
    * Requirements: 2.7, 7.5
    */
   async logout(): Promise<void> {
-    try {
-      await signOut();
-      this.cachedUser = null;
-    } catch (error) {
-      // Clear cached user even if remote logout fails
-      this.cachedUser = null;
-      throw error;
-    }
+    await signOut();
   }
 
   /**

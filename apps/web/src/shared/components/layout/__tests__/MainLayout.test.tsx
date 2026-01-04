@@ -2,11 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
-import { toHaveNoViolations } from 'vitest-axe/matchers';
+import 'vitest-axe/extend-expect';
 import { MainLayout } from '../MainLayout';
 import type { NavLink } from '../Header';
-
-expect.extend({ toHaveNoViolations });
 
 const navLinks: NavLink[] = [
   { id: 'home', label: 'Home', href: '/' },

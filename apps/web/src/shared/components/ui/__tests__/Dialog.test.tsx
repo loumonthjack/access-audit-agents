@@ -2,11 +2,9 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
-import { toHaveNoViolations } from 'vitest-axe/matchers';
+import 'vitest-axe/extend-expect';
 import { Dialog, DialogHeader, DialogBody, DialogFooter, DialogCloseButton } from '../Dialog';
 import { Button } from '../Button';
-
-expect.extend({ toHaveNoViolations });
 
 describe('Dialog', () => {
   describe('Accessibility', () => {

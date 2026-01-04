@@ -81,7 +81,7 @@ export function BatchProgressPage() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate({ to: '/batch' })}
+            onClick={() => navigate({ to: '/batch', search: { startScan: undefined } })}
             leftIcon={<BackIcon />}
           >
             <span className="hidden sm:inline">Back to Batch Scan</span>
@@ -104,7 +104,7 @@ export function BatchProgressPage() {
                 View Report
               </Button>
             )}
-            <Button variant="secondary" size="sm" onClick={() => navigate({ to: '/batch' })}>
+            <Button variant="secondary" size="sm" onClick={() => navigate({ to: '/batch', search: { startScan: undefined } })}>
               Start New Batch
             </Button>
           </div>
@@ -185,7 +185,7 @@ export function BatchProgressPage() {
                 The batch scan was cancelled before completion.
               </p>
             </div>
-            <Button variant="secondary" onClick={() => navigate({ to: '/batch' })}>
+            <Button variant="secondary" onClick={() => navigate({ to: '/batch', search: { startScan: undefined } })}>
               Start New Batch Scan
             </Button>
           </div>
@@ -215,7 +215,7 @@ export function BatchProgressPage() {
               <h2 className="text-xl font-semibold text-white">Batch Scan Error</h2>
               <p className="text-neutral-400 mt-1">An error occurred during the batch scan.</p>
             </div>
-            <Button variant="secondary" onClick={() => navigate({ to: '/batch' })}>
+            <Button variant="secondary" onClick={() => navigate({ to: '/batch', search: { startScan: undefined } })}>
               Start New Batch Scan
             </Button>
           </div>
