@@ -361,18 +361,32 @@ async function handleExportReport(event: APIGatewayProxyEvent): Promise<APIGatew
     }
 
     const session = sessionResult.rows[0];
-    const violations = violationsResult.rows;
-    const violationList = violations as Array<{ status: string; skipReason?: string }>;
+    const violations = violationsResult.rows as Array<{
+        id: string;
+        ruleId: string;
+        impact: string;
+        description: string;
+        selector: string;
+        html: string;
+        status: string;
+        skipReason?: string;
+        fix?: {
+            type: string;
+            beforeHtml: string;
+            afterHtml: string;
+            reasoning: string;
+        };
+    }>;
 
     const report = {
-        sessionId: session.id,
-        url: session.url,
-        viewport: session.viewport,
-        timestamp: session.completedAt ?? session.createdAt,
+        sessionId: session.id as string,
+        url: session.url as string,
+        viewport: session.viewport as 'mobile' | 'desktop',
+        timestamp: (session.completedAt ?? session.createdAt) as string,
         summary: {
-            totalViolations: violationList.length,
-            fixedCount: violationList.filter((v) => v.status === 'fixed').length,
-            skippedCount: violationList.filter((v) => v.status === 'skipped').length,
+            totalViolations: violations.length,
+            fixedCount: violations.filter((v) => v.status === 'fixed').length,
+            skippedCount: violations.filter((v) => v.status === 'skipped').length,
         },
         violations,
     };

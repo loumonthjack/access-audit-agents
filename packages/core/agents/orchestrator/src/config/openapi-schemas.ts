@@ -67,7 +67,7 @@ export interface SchemaObject {
     properties?: Record<string, SchemaObject | RefObject>;
     required?: string[];
     items?: SchemaObject | RefObject;
-    enum?: string[];
+    enum?: (string | boolean | number)[];
     minLength?: number;
     minimum?: number;
     maximum?: number;

@@ -48,6 +48,7 @@ export function createMockAuthContext(overrides: Partial<AuthContextValue> = {})
     login: async () => {},
     loginWithSSO: async () => {},
     logout: async () => {},
+    getToken: async () => null,
     ...overrides,
   };
 }

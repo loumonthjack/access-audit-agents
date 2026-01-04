@@ -53,6 +53,10 @@ const nonEmptyStringArbitrary = fc
 const appliedFixArbitrary = (index: number): fc.Arbitrary<AppliedFix> =>
   fc.record({
     violationId: fc.constant(`fix-${index}`),
+    ruleId: fc.constantFrom('image-alt', 'button-name', 'color-contrast', 'link-name'),
+    impact: fc.constantFrom('critical' as const, 'serious' as const, 'moderate' as const, 'minor' as const),
+    description: nonEmptyStringArbitrary,
+    selector: nonEmptyStringArbitrary,
     fixType: fixTypeArbitrary,
     beforeHtml: htmlArbitrary,
     afterHtml: htmlArbitrary,
@@ -67,7 +71,10 @@ const skippedViolationArbitrary = (index: number): fc.Arbitrary<SkippedViolation
   fc.record({
     violationId: fc.constant(`skipped-${index}`),
     ruleId: nonEmptyStringArbitrary,
+    impact: fc.constantFrom('critical' as const, 'serious' as const, 'moderate' as const, 'minor' as const),
+    description: nonEmptyStringArbitrary,
     selector: nonEmptyStringArbitrary,
+    html: htmlArbitrary,
     reason: nonEmptyStringArbitrary,
     attempts: fc.integer({ min: 1, max: 5 }),
   });
@@ -106,8 +113,8 @@ const remediationReportArbitrary: fc.Arbitrary<RemediationReport> = fc
       humanReviewCount === 0
         ? fc.constant([])
         : fc.tuple(
-            ...Array.from({ length: humanReviewCount }, (_, i) => humanReviewItemArbitrary(i))
-          );
+          ...Array.from({ length: humanReviewCount }, (_, i) => humanReviewItemArbitrary(i))
+        );
 
     return fc.record({
       sessionId: fc.uuid(),

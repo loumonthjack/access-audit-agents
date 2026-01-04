@@ -55,6 +55,10 @@ const nonEmptyStringArbitrary = fc
 const appliedFixArbitrary = (index: number): fc.Arbitrary<AppliedFix> =>
   fc.record({
     violationId: fc.constant(`fix-${index}-${Date.now()}`),
+    ruleId: fc.constantFrom('image-alt', 'button-name', 'color-contrast', 'link-name'),
+    impact: fc.constantFrom('critical' as const, 'serious' as const, 'moderate' as const, 'minor' as const),
+    description: nonEmptyStringArbitrary,
+    selector: nonEmptyStringArbitrary,
     fixType: fixTypeArbitrary,
     beforeHtml: htmlArbitrary,
     afterHtml: htmlArbitrary,
@@ -69,7 +73,10 @@ const skippedViolationArbitrary = (index: number): fc.Arbitrary<SkippedViolation
   fc.record({
     violationId: fc.constant(`skipped-${index}-${Date.now()}`),
     ruleId: nonEmptyStringArbitrary,
+    impact: fc.constantFrom('critical' as const, 'serious' as const, 'moderate' as const, 'minor' as const),
+    description: nonEmptyStringArbitrary,
     selector: nonEmptyStringArbitrary,
+    html: htmlArbitrary,
     reason: nonEmptyStringArbitrary,
     attempts: fc.integer({ min: 1, max: 5 }),
   });
@@ -120,6 +127,7 @@ const remediationReportArbitrary: fc.Arbitrary<RemediationReport> = fc
       fixes: fixesArb.map((arr) => (Array.isArray(arr) ? arr : [])),
       skipped: skippedArb.map((arr) => (Array.isArray(arr) ? arr : [])),
       humanReview: humanReviewArb.map((arr) => (Array.isArray(arr) ? arr : [])),
+      violations: fc.constant([]), // Empty violations array for testing
     });
   })
   .map((report) => ({

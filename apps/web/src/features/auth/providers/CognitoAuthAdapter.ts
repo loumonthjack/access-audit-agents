@@ -29,11 +29,11 @@ export interface CognitoConfig {
  * Requirements: 2.4, 2.5, 2.6, 2.7, 7.1, 7.2
  */
 export class CognitoAuthAdapter implements AuthAdapter {
-  private config: CognitoConfig;
+  private _config: CognitoConfig;
   private cachedUser: User | null = null;
 
   constructor(config: CognitoConfig) {
-    this.config = config;
+    this._config = config;
   }
 
   /**

@@ -67,6 +67,10 @@ export function createMockViolation(overrides: Partial<Violation> = {}): Violati
 export function createMockFix(overrides: Partial<AppliedFix> = {}): AppliedFix {
   return {
     violationId: 'violation-1',
+    ruleId: 'image-alt',
+    impact: 'critical',
+    description: 'Images must have alternate text',
+    selector: 'img.hero-image',
     fixType: 'attribute',
     beforeHtml: '<img src="hero.jpg" class="hero-image">',
     afterHtml: '<img src="hero.jpg" class="hero-image" alt="Hero banner image">',
@@ -188,7 +192,10 @@ export function createMockReport(overrides: Partial<RemediationReport> = {}): Re
       {
         violationId: 'violation-2',
         ruleId: 'color-contrast',
+        impact: 'serious',
+        description: 'Elements must have sufficient color contrast',
         selector: '.low-contrast-text',
+        html: '<span class="low-contrast-text">Low contrast text</span>',
         reason: 'Unable to determine appropriate contrast ratio without design context',
         attempts: 2,
       },

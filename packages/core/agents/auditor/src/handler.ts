@@ -200,8 +200,8 @@ export function createSuccessResponse(
     functionName: string,
     data: ScanResult | VerifyResult | PageStructure
 ): ActionGroupResponse {
-    const responseBody: ScanURLResponseBody | VerifyElementResponseBody | GetPageStructureResponseBody = {
-        success: true,
+    const responseBody = {
+        success: true as const,
         data
     };
 

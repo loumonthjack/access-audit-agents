@@ -48,6 +48,7 @@ function createAuthContext(isAuthenticated: boolean, user?: User): AuthContextVa
     login: vi.fn(),
     loginWithSSO: vi.fn(),
     logout: vi.fn(),
+    getToken: vi.fn().mockResolvedValue('mock-token'),
   };
 }
 
@@ -269,6 +270,7 @@ describe('Property 16: Auth Enforcement in SaaS Mode', () => {
             login: vi.fn(),
             loginWithSSO: vi.fn(),
             logout: vi.fn(),
+            getToken: vi.fn().mockResolvedValue('mock-token'),
           };
 
           render(

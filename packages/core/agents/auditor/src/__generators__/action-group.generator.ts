@@ -143,7 +143,7 @@ export const verifyResultArb: fc.Arbitrary<VerifyResult> = fc.oneof(
         status: fc.constant('fail' as const),
         violations: fc.array(fc.record({
             id: fc.constantFrom('button-name', 'color-contrast', 'image-alt'),
-            impact: fc.constantFrom('critical', 'serious', 'moderate', 'minor'),
+            impact: fc.constantFrom('critical' as const, 'serious' as const, 'moderate' as const, 'minor' as const),
             description: fc.string({ minLength: 10, maxLength: 100 }),
             help: fc.string({ minLength: 5, maxLength: 50 }),
             helpUrl: fc.constant('https://dequeuniversity.com/rules/axe/4.10/button-name'),

@@ -41,6 +41,10 @@ const dateArbitrary = fc
  */
 const appliedFixArbitrary: fc.Arbitrary<AppliedFix> = fc.record({
   violationId: fc.uuid(),
+  ruleId: fc.constantFrom('image-alt', 'button-name', 'color-contrast', 'link-name'),
+  impact: fc.constantFrom('critical' as const, 'serious' as const, 'moderate' as const, 'minor' as const),
+  description: fc.string({ minLength: 10, maxLength: 100 }),
+  selector: fc.string({ minLength: 1, maxLength: 50 }),
   fixType: fixTypeArbitrary,
   beforeHtml: htmlArbitrary,
   afterHtml: htmlArbitrary,

@@ -121,7 +121,7 @@ async function updateSessionStatus(
     status: string,
     errorMessage?: string
 ): Promise<void> {
-    const { query } = await import('../shared/database');
+    const { query } = await import('../shared/database.js');
     const completedAt = status === 'complete' || status === 'error' ? 'NOW()' : 'NULL';
 
     console.log('Updating session status:', { sessionId, orgId, status, errorMessage });
@@ -143,7 +143,7 @@ async function updateSessionStatus(
  * Uses query without RLS to look up any session
  */
 async function getSessionOrgId(sessionId: string): Promise<string> {
-    const { query } = await import('../shared/database');
+    const { query } = await import('../shared/database.js');
     const result = await query<{ orgId: string }>(
         'SELECT org_id as "orgId" FROM scan_sessions WHERE id = $1',
         [sessionId]
@@ -216,7 +216,7 @@ async function storeViolations(sessionId: string, violations: AuditorViolation[]
         return;
     }
 
-    const { query } = await import('../shared/database');
+    const { query } = await import('../shared/database.js');
 
     console.log(`Storing ${violations.length} violations for session ${sessionId}`);
 
