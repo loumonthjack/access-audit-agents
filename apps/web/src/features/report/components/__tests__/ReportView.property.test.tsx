@@ -56,7 +56,12 @@ const appliedFixArbitrary = (index: number): fc.Arbitrary<AppliedFix> =>
   fc.record({
     violationId: fc.constant(`fix-${index}-${Date.now()}`),
     ruleId: fc.constantFrom('image-alt', 'button-name', 'color-contrast', 'link-name'),
-    impact: fc.constantFrom('critical' as const, 'serious' as const, 'moderate' as const, 'minor' as const),
+    impact: fc.constantFrom(
+      'critical' as const,
+      'serious' as const,
+      'moderate' as const,
+      'minor' as const
+    ),
     description: nonEmptyStringArbitrary,
     selector: nonEmptyStringArbitrary,
     fixType: fixTypeArbitrary,
@@ -73,7 +78,12 @@ const skippedViolationArbitrary = (index: number): fc.Arbitrary<SkippedViolation
   fc.record({
     violationId: fc.constant(`skipped-${index}-${Date.now()}`),
     ruleId: nonEmptyStringArbitrary,
-    impact: fc.constantFrom('critical' as const, 'serious' as const, 'moderate' as const, 'minor' as const),
+    impact: fc.constantFrom(
+      'critical' as const,
+      'serious' as const,
+      'moderate' as const,
+      'minor' as const
+    ),
     description: nonEmptyStringArbitrary,
     selector: nonEmptyStringArbitrary,
     html: htmlArbitrary,
