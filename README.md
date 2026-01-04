@@ -2,7 +2,7 @@
 
 > AI-powered accessibility remediation at scale. Built in days, not months.
 
-**AccessAgents** is a production-grade platform that autonomously detects, plans, and fixes WCAG 2.2 violations in web applications using a multi-agent AI architecture powered by Amazon Bedrock.
+**AccessAgents** is a platform that autonomously detects, plans, and fixes WCAG 2.2 violations in web applications using a multi-agent AI architecture powered by Amazon Bedrock.
 
 This entire platform—frontend, backend, infrastructure, and AI orchestration—was built rapidly using [Kiro](https://kiro.dev), Claude Code, and Opus 4.5. What would traditionally take a team months was shipped in days.
 
