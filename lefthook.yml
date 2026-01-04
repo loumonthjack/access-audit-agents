@@ -29,7 +29,8 @@ pre-push:
     # Set SEVERITY_THRESHOLD to control blocking behavior (critical, high, moderate, low).
 
     security-npm:
-      run: ./scripts/security/npm-audit.sh
+      # Exit code 2 = warning (moderate/low vulnerabilities), should not block
+      run: ./scripts/security/npm-audit.sh || [ $? -eq 2 ]
       env:
         SEVERITY_THRESHOLD: high
       fail_text: |

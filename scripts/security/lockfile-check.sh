@@ -25,6 +25,8 @@ source "$SCRIPT_DIR/utils.sh"
 # =============================================================================
 
 # Find all package.json files in workspaces (excluding node_modules)
+# For npm workspaces, only check directories that have their own package-lock.json
+# OR are not part of the root workspace configuration
 # Arguments:
 #   $1 - Root directory (optional, defaults to current directory)
 # Output:
@@ -32,10 +34,39 @@ source "$SCRIPT_DIR/utils.sh"
 find_package_json_dirs() {
     local root_dir="${1:-.}"
     
-    find "$root_dir" -name "package.json" \
-        -not -path "*/node_modules/*" \
-        -not -path "*/.git/*" \
-        -exec dirname {} \; 2>/dev/null | sort -u
+    # Check if root has workspaces configured
+    local has_workspaces=false
+    if [[ -f "$root_dir/package.json" ]]; then
+        if grep -q '"workspaces"' "$root_dir/package.json" 2>/dev/null; then
+            has_workspaces=true
+        fi
+    fi
+    
+    if [[ "$has_workspaces" == "true" ]]; then
+        # For npm workspaces, only check directories that:
+        # 1. Have their own package-lock.json, OR
+        # 2. Are the root directory
+        find "$root_dir" -name "package.json" \
+            -not -path "*/node_modules/*" \
+            -not -path "*/.git/*" \
+            -not -path "*/cdk.out/*" \
+            -exec dirname {} \; 2>/dev/null | while read -r dir; do
+            # Always include root
+            if [[ "$dir" == "$root_dir" || "$dir" == "." ]]; then
+                echo "$dir"
+            # Include if it has its own lockfile (independent package)
+            elif [[ -f "$dir/package-lock.json" ]]; then
+                echo "$dir"
+            fi
+        done | sort -u
+    else
+        # No workspaces - check all package.json directories
+        find "$root_dir" -name "package.json" \
+            -not -path "*/node_modules/*" \
+            -not -path "*/.git/*" \
+            -not -path "*/cdk.out/*" \
+            -exec dirname {} \; 2>/dev/null | sort -u
+    fi
 }
 
 # Check if a lockfile exists for a given package.json directory
