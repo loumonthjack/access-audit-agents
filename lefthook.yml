@@ -1,0 +1,24 @@
+# Lefthook Git Hooks Configuration
+# https://github.com/evilmartians/lefthook
+#
+# This configuration runs quality checks before pushing code to ensure
+# consistent code quality across the team.
+
+pre-push:
+  parallel: true
+  commands:
+    format-check:
+      run: npm run format:check --workspaces --if-present
+      fail_text: "Formatting check failed. Run 'npm run format:check' to see issues."
+
+    lint:
+      run: npm run lint --workspaces --if-present
+      fail_text: "Linting failed. Run 'npm run lint' to see issues."
+
+    typecheck:
+      run: npm run typecheck --workspaces --if-present
+      fail_text: "Type checking failed. Run 'npm run typecheck' to see issues."
+
+    branch-check:
+      run: ./scripts/check-branch-name.sh
+      fail_text: "Branch name does not follow naming conventions."

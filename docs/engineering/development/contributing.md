@@ -5,6 +5,7 @@ Thank you for your interest in contributing to AccessAgents! This guide covers e
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [Git Hooks and CI Pipeline](#git-hooks-and-ci-pipeline)
 - [Code Style and Conventions](#code-style-and-conventions)
 - [Pull Request Process](#pull-request-process)
 - [Testing Requirements](#testing-requirements)
@@ -42,6 +43,97 @@ git checkout -b feature/your-feature-name
 # Make changes, then push
 git push origin feature/your-feature-name
 ```
+
+## Git Hooks and CI Pipeline
+
+This project uses automated quality checks at both local (pre-push) and remote (CI) levels to ensure consistent code quality.
+
+### Local Git Hooks (Lefthook)
+
+We use [Lefthook](https://github.com/evilmartians/lefthook) to run quality checks before pushing code. Hooks are automatically installed when you run `npm install` in the project root.
+
+#### Pre-Push Checks
+
+The following checks run automatically before each `git push`:
+
+| Check | Command | Description |
+|-------|---------|-------------|
+| Format | `npm run format:check` | Verifies Prettier formatting |
+| Lint | `npm run lint` | Runs ESLint across all packages |
+| Typecheck | `npm run typecheck` | Validates TypeScript types |
+| Branch Name | `./scripts/check-branch-name.sh` | Validates branch naming conventions |
+
+All checks run in parallel for faster feedback. If any check fails, the push is blocked and you'll see an error message explaining the issue.
+
+#### Reinstalling Hooks
+
+If hooks aren't working, reinstall them:
+
+```bash
+npx lefthook install
+```
+
+#### Bypassing Hooks (Emergency Only)
+
+In rare emergency situations, you can bypass pre-push hooks:
+
+```bash
+git push --no-verify
+```
+
+⚠️ **Warning**: Use `--no-verify` sparingly. CI will still run all checks, and your PR will be blocked if they fail. Valid use cases include:
+- Pushing work-in-progress to a remote branch for backup
+- Urgent hotfixes that have been manually verified
+- When hooks are broken and you need to push a fix
+
+### Branch Naming Conventions
+
+All branches must follow these naming patterns:
+
+| Pattern | Use Case | Example |
+|---------|----------|---------|
+| `feature/*` | New features | `feature/batch-scanning` |
+| `fix/*` | Bug fixes | `fix/auth-token-refresh` |
+| `chore/*` | Maintenance tasks | `chore/update-dependencies` |
+| `docs/*` | Documentation updates | `docs/api-reference` |
+| `refactor/*` | Code refactoring | `refactor/scan-service` |
+| `test/*` | Test additions/updates | `test/e2e-coverage` |
+| `hotfix/*` | Urgent production fixes | `hotfix/critical-security-patch` |
+
+Protected branches (`main`, `develop`, `staging`) are also allowed.
+
+**Invalid branch names will be rejected** by both local hooks and CI.
+
+### CI Pipeline (GitHub Actions)
+
+The CI pipeline runs automatically on:
+- All pull requests targeting `main` or `develop`
+- All pushes to `main` or `develop`
+
+#### CI Jobs
+
+| Job | Description | Checks |
+|-----|-------------|--------|
+| **Build** | Compiles all packages | TypeScript compilation for web, api, infra, and core packages |
+| **Test** | Runs automated tests | Unit tests with Vitest, type checking, coverage reports |
+| **Quality** | Code quality checks | ESLint, Prettier format check, branch name validation |
+
+All jobs must pass before a PR can be merged.
+
+#### Viewing CI Results
+
+1. Open your pull request on GitHub
+2. Scroll to the "Checks" section
+3. Click on any failed check to see detailed logs
+
+#### CI Artifacts
+
+The CI pipeline uploads test coverage reports as artifacts:
+- `web-coverage-report` - Web app coverage
+- `auditor-coverage-report` - Auditor agent coverage
+- `orchestrator-coverage-report` - Orchestrator agent coverage
+
+Artifacts are retained for 14 days.
 
 ## Code Style and Conventions
 

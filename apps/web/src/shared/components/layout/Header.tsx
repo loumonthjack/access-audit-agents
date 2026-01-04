@@ -33,9 +33,30 @@ function DefaultLogo() {
   );
 }
 
+function MenuIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+      />
+    </svg>
+  );
+}
+
 export function Header({
   logo,
   userMenu,
+  onMenuClick,
   navLinks = [],
   className,
 }: HeaderProps) {
@@ -62,6 +83,17 @@ export function Header({
     >
       {/* Left section: Mobile Menu + Logo + Nav */}
       <div className="flex items-center gap-3">
+        {/* Mobile menu button */}
+        {onMenuClick && (
+          <button
+            type="button"
+            className="md:hidden rounded-md p-2 text-neutral-400 hover:bg-neutral-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-400"
+            onClick={onMenuClick}
+            aria-label="Open navigation menu"
+          >
+            <MenuIcon className="h-6 w-6" />
+          </button>
+        )}
 
         <a
           href="/"

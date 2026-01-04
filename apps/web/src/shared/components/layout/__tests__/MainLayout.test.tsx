@@ -4,11 +4,11 @@ import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
 import { toHaveNoViolations } from 'vitest-axe/matchers';
 import { MainLayout } from '../MainLayout';
-import type { NavItem } from '../Sidebar';
+import type { NavLink } from '../Header';
 
 expect.extend({ toHaveNoViolations });
 
-const navItems: NavItem[] = [
+const navLinks: NavLink[] = [
   { id: 'home', label: 'Home', href: '/' },
   { id: 'history', label: 'History', href: '/history' },
   { id: 'settings', label: 'Settings', href: '/settings' },
@@ -18,7 +18,7 @@ describe('MainLayout', () => {
   describe('Accessibility', () => {
     it('should have no accessibility violations', async () => {
       const { container } = render(
-        <MainLayout navItems={navItems}>
+        <MainLayout navLinks={navLinks}>
           <div>Main content</div>
         </MainLayout>
       );
@@ -28,7 +28,7 @@ describe('MainLayout', () => {
 
     it('has skip link for keyboard navigation', () => {
       render(
-        <MainLayout navItems={navItems}>
+        <MainLayout navLinks={navLinks}>
           <div>Main content</div>
         </MainLayout>
       );
@@ -37,7 +37,7 @@ describe('MainLayout', () => {
 
     it('has main landmark', () => {
       render(
-        <MainLayout navItems={navItems}>
+        <MainLayout navLinks={navLinks}>
           <div>Main content</div>
         </MainLayout>
       );
@@ -48,7 +48,7 @@ describe('MainLayout', () => {
   describe('Rendering', () => {
     it('renders children in main content area', () => {
       render(
-        <MainLayout navItems={navItems}>
+        <MainLayout navLinks={navLinks}>
           <div data-testid="content">Main content</div>
         </MainLayout>
       );
@@ -57,7 +57,7 @@ describe('MainLayout', () => {
 
     it('renders header', () => {
       render(
-        <MainLayout navItems={navItems}>
+        <MainLayout navLinks={navLinks}>
           <div>Content</div>
         </MainLayout>
       );
@@ -66,7 +66,7 @@ describe('MainLayout', () => {
 
     it('renders custom logo', () => {
       render(
-        <MainLayout navItems={navItems} logo={<span>Custom Logo</span>}>
+        <MainLayout navLinks={navLinks} logo={<span>Custom Logo</span>}>
           <div>Content</div>
         </MainLayout>
       );
@@ -75,7 +75,7 @@ describe('MainLayout', () => {
 
     it('renders user menu slot', () => {
       render(
-        <MainLayout navItems={navItems} userMenu={<button>User Menu</button>}>
+        <MainLayout navLinks={navLinks} userMenu={<button>User Menu</button>}>
           <div>Content</div>
         </MainLayout>
       );
@@ -84,7 +84,7 @@ describe('MainLayout', () => {
 
     it('renders banner when provided', () => {
       render(
-        <MainLayout navItems={navItems} banner={<div data-testid="banner">Banner</div>}>
+        <MainLayout navLinks={navLinks} banner={<div data-testid="banner">Banner</div>}>
           <div>Content</div>
         </MainLayout>
       );
@@ -95,7 +95,7 @@ describe('MainLayout', () => {
   describe('Responsive Behavior', () => {
     it('shows mobile menu button on small screens', () => {
       render(
-        <MainLayout navItems={navItems}>
+        <MainLayout navLinks={navLinks}>
           <div>Content</div>
         </MainLayout>
       );
@@ -106,7 +106,7 @@ describe('MainLayout', () => {
     it('opens mobile sidebar when menu button is clicked', async () => {
       const user = userEvent.setup();
       render(
-        <MainLayout navItems={navItems}>
+        <MainLayout navLinks={navLinks}>
           <div>Content</div>
         </MainLayout>
       );
@@ -122,7 +122,7 @@ describe('MainLayout', () => {
     it('closes mobile sidebar when close button is clicked', async () => {
       const user = userEvent.setup();
       render(
-        <MainLayout navItems={navItems}>
+        <MainLayout navLinks={navLinks}>
           <div>Content</div>
         </MainLayout>
       );
@@ -147,7 +147,7 @@ describe('MainLayout', () => {
     it('skip link becomes visible on focus', async () => {
       const user = userEvent.setup();
       render(
-        <MainLayout navItems={navItems}>
+        <MainLayout navLinks={navLinks}>
           <div>Content</div>
         </MainLayout>
       );
