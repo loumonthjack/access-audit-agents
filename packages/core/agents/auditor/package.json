@@ -1,0 +1,40 @@
+{
+  "name": "@accessagents/core-auditor",
+  "version": "1.0.0",
+  "description": "Core Auditor Agent for WCAG 2.1 AA accessibility scanning",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "accessibility",
+    "wcag",
+    "axe-core",
+    "a11y",
+    "bedrock",
+    "lambda"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "playwright": "^1.48.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^2.1.9",
+    "fast-check": "^3.22.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

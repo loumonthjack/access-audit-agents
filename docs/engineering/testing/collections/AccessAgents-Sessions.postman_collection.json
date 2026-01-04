@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "AccessAgents - Sessions",
+    "description": "Session management endpoints for AccessAgents API.\n\nIncludes listing and deleting scan sessions.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3003/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "sessionId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "List Sessions",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/sessions?limit=20&offset=0",
+          "host": ["{{baseUrl}}"],
+          "path": ["sessions"],
+          "query": [
+            {
+              "key": "limit",
+              "value": "20",
+              "description": "Max results per page (1-100)"
+            },
+            {
+              "key": "offset",
+              "value": "0",
+              "description": "Number of results to skip"
+            },
+            {
+              "key": "status",
+              "value": "complete",
+              "description": "Filter by status",
+              "disabled": true
+            }
+          ]
+        },
+        "description": "Retrieves a paginated list of scan sessions for the authenticated user."
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Session",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/sessions/{{sessionId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["sessions", "{{sessionId}}"]
+        },
+        "description": "Deletes a scan session and all associated data (violations, fixes)."
+      },
+      "response": []
+    }
+  ]
+}

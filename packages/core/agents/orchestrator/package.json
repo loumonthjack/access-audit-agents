@@ -1,0 +1,40 @@
+{
+  "name": "@accessagents/orchestrator",
+  "version": "1.0.0",
+  "description": "Agent Orchestration for Planner-Executor-Validator accessibility remediation workflow",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "accessibility",
+    "wcag",
+    "bedrock",
+    "orchestration",
+    "remediation",
+    "a11y"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-agent-runtime": "^3.700.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^2.1.9",
+    "fast-check": "^3.22.0",
+    "playwright": "^1.40.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,349 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Injector Action Group API",
+    "description": "DOM manipulation API for applying accessibility fixes. This API is exposed as an Amazon Bedrock Action Group for AI orchestration.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "AccessAgents Team"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.accessagents.io/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/fix/attribute": {
+      "post": {
+        "operationId": "ApplyAttributeFix",
+        "summary": "Apply an attribute fix to a DOM element",
+        "description": "Modifies or adds an attribute to a DOM element identified by the selector. Returns before/after HTML snapshots for audit purposes.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyAttributeFixRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fix applied successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FixResultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InjectorErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Element not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InjectorErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InjectorErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fix/content": {
+      "post": {
+        "operationId": "ApplyContentFix",
+        "summary": "Apply a content fix to a DOM element",
+        "description": "Modifies the inner text of a DOM element. Requires originalTextHash for content validation to prevent race conditions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyContentFixRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fix applied successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FixResultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters or content changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InjectorErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Element not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InjectorErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InjectorErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fix/style": {
+      "post": {
+        "operationId": "InjectStyle",
+        "summary": "Inject CSS styles to a DOM element",
+        "description": "Adds CSS classes and/or inline styles to a DOM element. Used for contrast fixes and visual accessibility improvements.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InjectStyleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Style applied successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FixResultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters or style conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InjectorErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Element not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InjectorErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InjectorErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApplyAttributeFixRequest": {
+        "type": "object",
+        "required": ["selector", "attribute", "value", "reasoning"],
+        "properties": {
+          "selector": {
+            "type": "string",
+            "minLength": 1,
+            "description": "CSS selector for the target element"
+          },
+          "attribute": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The attribute name to set or modify (e.g., 'alt', 'aria-label', 'role')"
+          },
+          "value": {
+            "type": "string",
+            "description": "The value to set for the attribute"
+          },
+          "reasoning": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Explanation of why this fix is being applied"
+          }
+        }
+      },
+      "ApplyContentFixRequest": {
+        "type": "object",
+        "required": ["selector", "innerText", "originalTextHash"],
+        "properties": {
+          "selector": {
+            "type": "string",
+            "minLength": 1,
+            "description": "CSS selector for the target element"
+          },
+          "innerText": {
+            "type": "string",
+            "description": "The new inner text content for the element"
+          },
+          "originalTextHash": {
+            "type": "string",
+            "minLength": 1,
+            "description": "SHA-256 hash of the original inner text for validation"
+          }
+        }
+      },
+      "InjectStyleRequest": {
+        "type": "object",
+        "required": ["selector"],
+        "properties": {
+          "selector": {
+            "type": "string",
+            "minLength": 1,
+            "description": "CSS selector for the target element"
+          },
+          "cssClass": {
+            "type": "string",
+            "description": "CSS class name to add to the element"
+          },
+          "styles": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Inline styles to apply as key-value pairs (e.g., {'color': '#000000', 'background-color': '#ffffff'})"
+          }
+        }
+      },
+      "FixResultResponse": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "data": {
+            "$ref": "#/components/schemas/FixResult"
+          }
+        }
+      },
+      "FixResult": {
+        "type": "object",
+        "required": ["success", "selector", "beforeHtml", "afterHtml"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the fix was applied successfully"
+          },
+          "selector": {
+            "type": "string",
+            "description": "The selector that was targeted"
+          },
+          "beforeHtml": {
+            "type": "string",
+            "description": "HTML snapshot of the element before the fix"
+          },
+          "afterHtml": {
+            "type": "string",
+            "description": "HTML snapshot of the element after the fix"
+          }
+        }
+      },
+      "InjectorErrorResponse": {
+        "type": "object",
+        "required": ["success", "error"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [false]
+          },
+          "error": {
+            "$ref": "#/components/schemas/InjectorError"
+          }
+        }
+      },
+      "InjectorError": {
+        "type": "object",
+        "required": ["code", "message", "selector"],
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/InjectorErrorCode"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Human-readable error message"
+          },
+          "selector": {
+            "type": "string",
+            "description": "The selector that caused the error"
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Additional error details"
+          }
+        }
+      },
+      "InjectorErrorCode": {
+        "type": "string",
+        "enum": [
+          "SELECTOR_NOT_FOUND",
+          "CONTENT_CHANGED",
+          "VALIDATION_FAILED",
+          "DESTRUCTIVE_CHANGE",
+          "STYLE_CONFLICT"
+        ],
+        "description": "Error codes for injector operations"
+      }
+    }
+  }
+}

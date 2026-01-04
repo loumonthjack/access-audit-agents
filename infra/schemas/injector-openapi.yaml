@@ -1,0 +1,165 @@
+openapi: 3.0.3
+info:
+  title: Injector Action Group API
+  description: |
+    DOM manipulation API for applying accessibility fixes.
+    Provides safe methods to modify HTML attributes, content, and styles.
+  version: 1.0.0
+
+paths:
+  /apply-attribute:
+    post:
+      operationId: ApplyAttributeFix
+      summary: Apply an attribute fix to an element
+      description: |
+        Adds or modifies an HTML attribute on the specified element.
+        Used for ARIA labels, roles, and other attribute-based fixes.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+                - selector
+                - attribute
+                - value
+                - reasoning
+              properties:
+                url:
+                  type: string
+                  description: The URL of the page containing the element
+                selector:
+                  type: string
+                  description: CSS selector for the target element
+                attribute:
+                  type: string
+                  description: The attribute name to set
+                value:
+                  type: string
+                  description: The attribute value
+                reasoning:
+                  type: string
+                  description: Explanation for why this fix is appropriate
+      responses:
+        '200':
+          description: Fix applied successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixResult'
+
+  /apply-content:
+    post:
+      operationId: ApplyContentFix
+      summary: Apply a content fix to an element
+      description: |
+        Modifies the text content of an element.
+        Includes hash validation to prevent changes if DOM has been modified.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+                - selector
+                - innerText
+              properties:
+                url:
+                  type: string
+                  description: The URL of the page containing the element
+                selector:
+                  type: string
+                  description: CSS selector for the target element
+                innerText:
+                  type: string
+                  description: The new text content
+                originalTextHash:
+                  type: string
+                  description: SHA-256 hash of original content for validation (optional)
+      responses:
+        '200':
+          description: Fix applied successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixResult'
+
+  /inject-style:
+    post:
+      operationId: InjectStyle
+      summary: Apply style fixes to an element
+      description: |
+        Adds CSS classes or inline styles to an element.
+        Used for contrast fixes and visual accessibility improvements.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+                - selector
+              properties:
+                url:
+                  type: string
+                  description: The URL of the page containing the element
+                selector:
+                  type: string
+                  description: CSS selector for the target element
+                cssClass:
+                  type: string
+                  description: CSS class to add to the element
+                styles:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  description: Inline styles to apply (property-value pairs)
+      responses:
+        '200':
+          description: Style applied successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixResult'
+
+components:
+  schemas:
+    FixResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            success:
+              type: boolean
+            selector:
+              type: string
+            beforeHtml:
+              type: string
+              description: HTML before the fix was applied
+            afterHtml:
+              type: string
+              description: HTML after the fix was applied
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+                - SELECTOR_NOT_FOUND
+                - VALIDATION_FAILED
+                - CONTENT_CHANGED
+            message:
+              type: string
+            selector:
+              type: string
+            details:
+              type: object
+

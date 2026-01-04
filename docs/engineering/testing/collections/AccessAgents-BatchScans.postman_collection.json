@@ -1,0 +1,283 @@
+{
+  "info": {
+    "name": "AccessAgents - Batch Scans",
+    "description": "Batch scanning endpoints for multi-page accessibility scans.\n\nIncludes sitemap parsing, batch creation, control operations, and reporting.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3003/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "batchId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Sitemap",
+      "item": [
+        {
+          "name": "Parse Sitemap",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sitemapUrl\": \"https://example.com/sitemap.xml\",\n  \"maxUrls\": 500\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/sitemaps/parse",
+              "host": ["{{baseUrl}}"],
+              "path": ["sitemaps", "parse"]
+            },
+            "description": "Parses a sitemap URL and returns discovered URLs for batch scanning."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Batch Operations",
+      "item": [
+        {
+          "name": "Create Batch Scan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('batchId', response.id);",
+                  "    pm.test('Batch ID saved', function() {",
+                  "        pm.expect(response.id).to.be.a('string');",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"urls\": [\n    \"https://example.com/\",\n    \"https://example.com/about\",\n    \"https://example.com/contact\"\n  ],\n  \"viewport\": \"desktop\",\n  \"name\": \"Example.com Full Site Scan\",\n  \"sitemapUrl\": \"https://example.com/sitemap.xml\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/batch-scans",
+              "host": ["{{baseUrl}}"],
+              "path": ["batch-scans"]
+            },
+            "description": "Creates a new batch scan session and starts processing URLs."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Batch Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/batch-scans/{{batchId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["batch-scans", "{{batchId}}"]
+            },
+            "description": "Retrieves the current status and progress of a batch scan."
+          },
+          "response": []
+        },
+        {
+          "name": "Pause Batch Scan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/batch-scans/{{batchId}}/pause",
+              "host": ["{{baseUrl}}"],
+              "path": ["batch-scans", "{{batchId}}", "pause"]
+            },
+            "description": "Pauses a running batch scan. Processing will stop after the current page completes."
+          },
+          "response": []
+        },
+        {
+          "name": "Resume Batch Scan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/batch-scans/{{batchId}}/resume",
+              "host": ["{{baseUrl}}"],
+              "path": ["batch-scans", "{{batchId}}", "resume"]
+            },
+            "description": "Resumes a paused batch scan from where it left off."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Batch Scan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/batch-scans/{{batchId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["batch-scans", "{{batchId}}", "cancel"]
+            },
+            "description": "Cancels a batch scan. Any pending pages will be marked as skipped."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Batch Pages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/batch-scans/{{batchId}}/pages",
+              "host": ["{{baseUrl}}"],
+              "path": ["batch-scans", "{{batchId}}", "pages"]
+            },
+            "description": "Retrieves all pages in a batch scan with their individual status."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Batch Reports",
+      "item": [
+        {
+          "name": "Get Batch Report (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/batch-scans/{{batchId}}/report?format=json",
+              "host": ["{{baseUrl}}"],
+              "path": ["batch-scans", "{{batchId}}", "report"],
+              "query": [
+                {
+                  "key": "format",
+                  "value": "json",
+                  "description": "Export format: json, json-download, or html"
+                }
+              ]
+            },
+            "description": "Retrieves the comprehensive accessibility report for a batch scan."
+          },
+          "response": []
+        },
+        {
+          "name": "Download Batch Report (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/batch-scans/{{batchId}}/report?format=json-download",
+              "host": ["{{baseUrl}}"],
+              "path": ["batch-scans", "{{batchId}}", "report"],
+              "query": [
+                {
+                  "key": "format",
+                  "value": "json-download"
+                }
+              ]
+            },
+            "description": "Downloads the batch report as a JSON file."
+          },
+          "response": []
+        },
+        {
+          "name": "Download Batch Report (HTML)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/batch-scans/{{batchId}}/report?format=html",
+              "host": ["{{baseUrl}}"],
+              "path": ["batch-scans", "{{batchId}}", "report"],
+              "query": [
+                {
+                  "key": "format",
+                  "value": "html"
+                }
+              ]
+            },
+            "description": "Downloads the batch report as a styled HTML file."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<!--
+  Test Fixture: Sticky Header Obscuring Focusable Elements
+  
+  Tests WCAG 2.2 Success Criterion 2.4.11 - Focus Not Obscured (Minimum)
+  
+  This page demonstrates a common pattern where a fixed/sticky header
+  obscures focusable elements when they receive keyboard focus.
+  
+  Violations:
+  - #btn-fully-hidden: Completely hidden behind the header (100% overlap)
+  - #btn-mostly-hidden: Mostly hidden (75% overlap)
+  - #link-partially-hidden: Partially hidden (50% overlap)
+  
+  Passing elements:
+  - #btn-visible: Not obscured by header
+  - #btn-high-z: Has higher z-index than header
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Header Focus Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, sans-serif;
+            min-height: 200vh; /* Enable scrolling */
+        }
+        
+        /* Fixed header that covers top of viewport */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: #1a1a2e;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        /* Sticky banner below header */
+        .sticky-banner {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: #ff6b6b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        
+        /* Fixed footer */
+        .sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #16213e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .main-content {
+            padding-top: 140px; /* Space for header + banner */
+            padding-bottom: 80px; /* Space for footer */
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        
+        /* Test elements positioned to be obscured */
+        .violation-group {
+            margin: 40px 0;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        /* Element completely hidden by header */
+        #btn-fully-hidden {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1; /* Lower than header */
+        }
+        
+        /* Element mostly hidden (75% overlap) */
+        #btn-mostly-hidden {
+            position: fixed;
+            top: 60px;
+            left: 30%;
+            z-index: 1;
+        }
+        
+        /* Element partially hidden (50% overlap) */
+        #link-partially-hidden {
+            position: fixed;
+            top: 100px; /* Overlaps with banner */
+            right: 20%;
+        }
+        
+        /* Element hidden by footer */
+        #btn-footer-hidden {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        
+        /* Element with higher z-index (should pass) */
+        #btn-high-z {
+            position: fixed;
+            top: 40px;
+            right: 20px;
+            z-index: 1001; /* Higher than header */
+        }
+        
+        /* Standard buttons and inputs */
+        button, .btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #4a90d9;
+            color: white;
+            margin: 5px;
+        }
+        
+        button:focus, .btn:focus, a:focus, input:focus {
+            outline: 3px solid #ff9500;
+            outline-offset: 2px;
+        }
+        
+        a {
+            color: #4a90d9;
+            padding: 8px 16px;
+            display: inline-block;
+        }
+        
+        input {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 5px;
+        }
+        
+        /* Visible content area */
+        .visible-section {
+            margin-top: 50px;
+        }
+        
+        .form-group {
+            margin: 20px 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Header -->
+    <header class="sticky-header" id="main-header">
+        <h1>Site Header</h1>
+        <nav style="margin-left: auto;">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    
+    <!-- Sticky Banner (secondary overlay) -->
+    <div class="sticky-banner" id="notification-banner">
+        Important announcement banner
+    </div>
+    
+    <!-- Violation: Fully hidden button -->
+    <button id="btn-fully-hidden">Completely Hidden Behind Header</button>
+    
+    <!-- Violation: Mostly hidden button -->
+    <button id="btn-mostly-hidden">Mostly Hidden (75%)</button>
+    
+    <!-- Violation: Partially hidden link -->
+    <a href="#" id="link-partially-hidden">Partially Hidden Link</a>
+    
+    <!-- Pass: High z-index button -->
+    <button id="btn-high-z">Visible (High Z-Index)</button>
+    
+    <main class="main-content">
+        <section class="violation-group">
+            <h2>Focus Obscured Test Page</h2>
+            <p>This page tests WCAG 2.4.11 - Focus Not Obscured (Minimum)</p>
+            <p>Tab through the page to observe which elements are hidden by overlays.</p>
+        </section>
+        
+        <section class="visible-section">
+            <h2>Visible Form Elements</h2>
+            <form>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter email">
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" id="btn-visible">Submit (Visible)</button>
+                    <button type="reset" id="btn-reset">Reset</button>
+                </div>
+            </form>
+        </section>
+        
+        <section class="violation-group">
+            <h2>Additional Interactive Elements</h2>
+            <button id="btn-action1">Action 1</button>
+            <button id="btn-action2">Action 2</button>
+            <a href="#" id="link-visible">Visible Link</a>
+        </section>
+    </main>
+    
+    <!-- Violation: Footer-hidden button -->
+    <button id="btn-footer-hidden">Hidden by Footer</button>
+    
+    <!-- Fixed Footer -->
+    <footer class="sticky-footer" id="main-footer">
+        <span>© 2024 Test Site</span>
+    </footer>
+</body>
+</html>

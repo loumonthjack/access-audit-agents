@@ -1,0 +1,533 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Core Auditor Agent API",
+    "description": "WCAG 2.1 AA accessibility scanning API for the AccessAgents platform. This API is exposed as an Amazon Bedrock Action Group for AI orchestration.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "AccessAgents Team"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.accessagents.io/v1",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/scan": {
+      "post": {
+        "operationId": "ScanURL",
+        "summary": "Scan a URL for accessibility violations",
+        "description": "Navigates to the specified URL and runs axe-core WCAG 2.1 AA analysis. Returns violations sorted by impact level with pagination support.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanURLRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful scan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanURLResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/verify": {
+      "post": {
+        "operationId": "VerifyElement",
+        "summary": "Verify a specific element for accessibility compliance",
+        "description": "Runs axe-core checks scoped to a specific element and rule. Used to verify fixes after remediation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyElementRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verification result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyElementResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Element not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/structure": {
+      "post": {
+        "operationId": "GetPageStructure",
+        "summary": "Get page structure for selector fuzzy-matching",
+        "description": "Returns a lightweight DOM outline including interactive elements, landmarks, and headings.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPageStructureRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Page structure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPageStructureResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ScanURLRequest": {
+        "type": "object",
+        "required": ["url"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL to scan for accessibility violations"
+          },
+          "viewport": {
+            "$ref": "#/components/schemas/Viewport"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 1,
+            "description": "Page number for paginated results"
+          }
+        }
+      },
+      "VerifyElementRequest": {
+        "type": "object",
+        "required": ["url", "selector", "ruleId"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL containing the element to verify"
+          },
+          "selector": {
+            "type": "string",
+            "minLength": 1,
+            "description": "CSS selector for the element to verify"
+          },
+          "ruleId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "axe-core rule ID to check"
+          }
+        }
+      },
+      "GetPageStructureRequest": {
+        "type": "object",
+        "required": ["url"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL to analyze"
+          },
+          "viewport": {
+            "$ref": "#/components/schemas/Viewport"
+          }
+        }
+      },
+      "ScanURLResponse": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "data": {
+            "$ref": "#/components/schemas/ScanResult"
+          }
+        }
+      },
+      "VerifyElementResponse": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "data": {
+            "$ref": "#/components/schemas/VerifyResult"
+          }
+        }
+      },
+      "GetPageStructureResponse": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageStructure"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["success", "error"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [false]
+          },
+          "error": {
+            "$ref": "#/components/schemas/AuditorError"
+          }
+        }
+      },
+      "ScanResult": {
+        "type": "object",
+        "required": ["schemaVersion", "metadata", "violations", "pagination"],
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "enum": ["1.0.0"]
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/ScanMetadata"
+          },
+          "violations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Violation"
+            },
+            "maxItems": 10
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationInfo"
+          }
+        }
+      },
+      "ScanMetadata": {
+        "type": "object",
+        "required": ["url", "timestamp", "viewport", "violationCounts"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "viewport": {
+            "$ref": "#/components/schemas/Viewport"
+          },
+          "violationCounts": {
+            "$ref": "#/components/schemas/ViolationCounts"
+          }
+        }
+      },
+      "ViolationCounts": {
+        "type": "object",
+        "required": ["critical", "serious", "moderate", "minor", "total"],
+        "properties": {
+          "critical": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "serious": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "moderate": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minor": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "PaginationInfo": {
+        "type": "object",
+        "required": ["currentPage", "totalPages", "pageSize", "hasMoreViolations"],
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "totalPages": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 10
+          },
+          "hasMoreViolations": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Violation": {
+        "type": "object",
+        "required": ["id", "impact", "description", "help", "helpUrl", "nodes"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "impact": {
+            "$ref": "#/components/schemas/ImpactLevel"
+          },
+          "description": {
+            "type": "string"
+          },
+          "help": {
+            "type": "string"
+          },
+          "helpUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "nodes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ViolationNode"
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "ViolationNode": {
+        "type": "object",
+        "required": ["selector", "html", "failureSummary", "target"],
+        "properties": {
+          "selector": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string"
+          },
+          "failureSummary": {
+            "type": "string"
+          },
+          "target": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "VerifyResult": {
+        "type": "object",
+        "required": ["status"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["pass", "fail"]
+          },
+          "violations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Violation"
+            }
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          }
+        }
+      },
+      "PageStructure": {
+        "type": "object",
+        "required": ["interactiveElements", "landmarks", "headings"],
+        "properties": {
+          "interactiveElements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ElementSummary"
+            }
+          },
+          "landmarks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ElementSummary"
+            }
+          },
+          "headings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ElementSummary"
+            }
+          }
+        }
+      },
+      "ElementSummary": {
+        "type": "object",
+        "required": ["selector", "tagName"],
+        "properties": {
+          "selector": {
+            "type": "string"
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "AuditorError": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/AuditorErrorCode"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "stack": {
+            "type": "string"
+          }
+        }
+      },
+      "Viewport": {
+        "type": "string",
+        "enum": ["mobile", "desktop"],
+        "default": "desktop"
+      },
+      "ImpactLevel": {
+        "type": "string",
+        "enum": ["critical", "serious", "moderate", "minor"]
+      },
+      "AuditorErrorCode": {
+        "type": "string",
+        "enum": [
+          "BROWSER_LAUNCH_FAILED",
+          "BROWSER_PROVIDER_UNAVAILABLE",
+          "AXE_INJECTION_FAILED",
+          "AUTOMATION_BLOCKED",
+          "URL_UNREACHABLE",
+          "TIMEOUT",
+          "ELEMENT_NOT_FOUND"
+        ]
+      }
+    }
+  }
+}

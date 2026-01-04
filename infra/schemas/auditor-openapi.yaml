@@ -1,0 +1,247 @@
+openapi: 3.0.3
+info:
+  title: Auditor Action Group API
+  description: |
+    WCAG 2.1 AA accessibility scanning API for Bedrock Agent.
+    Provides capabilities to scan URLs, verify elements, and analyze page structure.
+  version: 1.0.0
+
+paths:
+  /scan:
+    post:
+      operationId: ScanURL
+      summary: Scan a URL for accessibility violations
+      description: |
+        Navigates to the specified URL and runs axe-core WCAG 2.1 AA analysis.
+        Returns violations sorted by impact level with pagination support.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  description: The URL to scan for accessibility violations
+                viewport:
+                  type: string
+                  enum: [mobile, desktop]
+                  default: desktop
+                  description: Viewport configuration
+                page:
+                  type: integer
+                  minimum: 1
+                  default: 1
+                  description: Page number for paginated results
+      responses:
+        '200':
+          description: Successful scan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScanResult'
+
+  /verify:
+    post:
+      operationId: VerifyElement
+      summary: Verify a specific element for accessibility compliance
+      description: |
+        Runs axe-core checks scoped to a specific element and rule.
+        Used to verify fixes after remediation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+                - selector
+                - ruleId
+              properties:
+                url:
+                  type: string
+                  description: The URL containing the element to verify
+                selector:
+                  type: string
+                  description: CSS selector for the element to verify
+                ruleId:
+                  type: string
+                  description: axe-core rule ID to check
+      responses:
+        '200':
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyResult'
+
+  /structure:
+    post:
+      operationId: GetPageStructure
+      summary: Get page structure for selector fuzzy-matching
+      description: |
+        Returns a lightweight DOM outline including interactive elements,
+        landmarks, and headings. Used when finding elements without exact selectors.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  description: The URL to analyze
+                viewport:
+                  type: string
+                  enum: [mobile, desktop]
+                  default: desktop
+      responses:
+        '200':
+          description: Page structure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageStructure'
+
+components:
+  schemas:
+    ScanResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            schemaVersion:
+              type: string
+            metadata:
+              type: object
+              properties:
+                url:
+                  type: string
+                timestamp:
+                  type: string
+                viewport:
+                  type: string
+                violationCounts:
+                  type: object
+                  properties:
+                    critical:
+                      type: integer
+                    serious:
+                      type: integer
+                    moderate:
+                      type: integer
+                    minor:
+                      type: integer
+                    total:
+                      type: integer
+            violations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Violation'
+            pagination:
+              type: object
+              properties:
+                currentPage:
+                  type: integer
+                totalPages:
+                  type: integer
+                hasMoreViolations:
+                  type: boolean
+
+    Violation:
+      type: object
+      properties:
+        id:
+          type: string
+          description: axe-core rule ID
+        impact:
+          type: string
+          enum: [critical, serious, moderate, minor]
+        description:
+          type: string
+        help:
+          type: string
+        helpUrl:
+          type: string
+        nodes:
+          type: array
+          items:
+            type: object
+            properties:
+              selector:
+                type: string
+              html:
+                type: string
+              failureSummary:
+                type: string
+
+    VerifyResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: [pass, fail]
+            violations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Violation'
+
+    PageStructure:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            interactiveElements:
+              type: array
+              items:
+                type: object
+                properties:
+                  selector:
+                    type: string
+                  tagName:
+                    type: string
+                  role:
+                    type: string
+                  text:
+                    type: string
+            landmarks:
+              type: array
+              items:
+                type: object
+                properties:
+                  selector:
+                    type: string
+                  tagName:
+                    type: string
+                  role:
+                    type: string
+            headings:
+              type: array
+              items:
+                type: object
+                properties:
+                  selector:
+                    type: string
+                  tagName:
+                    type: string
+                  text:
+                    type: string
+

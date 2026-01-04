@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<!--
+  Test Fixture: Draggable List Without Keyboard Alternatives
+  
+  Tests WCAG 2.2 Success Criterion 2.5.7 - Dragging Movements
+  
+  This page demonstrates sortable/draggable lists that lack single-pointer
+  alternatives, violating WCAG 2.5.7.
+  
+  Violations:
+  - #kanban-board: Kanban columns with draggable cards, no move buttons
+  - #priority-list: Sortable priority list, no reorder controls
+  - #file-list: Draggable file list, no alternatives
+  
+  Passing elements:
+  - #accessible-list: Sortable list WITH move up/down buttons
+  - #slider-with-input: Slider with number input alternative
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable List Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        h2 {
+            margin: 20px 0 10px;
+            color: #555;
+            font-size: 1.2rem;
+        }
+
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .violation-section {
+            border-left: 4px solid #dc3545;
+        }
+
+        .passing-section {
+            border-left: 4px solid #28a745;
+        }
+
+        /* ==== VIOLATIONS ==== */
+
+        /* Kanban Board - No alternatives */
+        .kanban-board {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px;
+        }
+
+        .kanban-column {
+            min-width: 250px;
+            background: #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .kanban-column h3 {
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        .kanban-card {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: grab;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.2s;
+        }
+
+        .kanban-card:active {
+            cursor: grabbing;
+        }
+
+        .kanban-card[draggable="true"]:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Priority List - No alternatives */
+        .priority-list {
+            list-style: none;
+        }
+
+        .priority-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: grab;
+        }
+
+        .priority-item:active {
+            cursor: grabbing;
+        }
+
+        .drag-handle {
+            margin-right: 15px;
+            color: #999;
+            font-size: 20px;
+        }
+
+        .priority-number {
+            background: #4a90d9;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* File List - jQuery UI style */
+        .file-list {
+            list-style: none;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: white;
+            border: 1px solid #ddd;
+            margin-bottom: 2px;
+        }
+
+        .file-item.ui-sortable-handle {
+            cursor: grab;
+        }
+
+        .file-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        /* ==== PASSING EXAMPLES ==== */
+
+        /* Accessible List WITH alternatives */
+        .accessible-list {
+            list-style: none;
+        }
+
+        .accessible-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: white;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+
+        .accessible-item .item-content {
+            flex: 1;
+        }
+
+        .move-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .move-btn {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            background: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .move-btn:hover {
+            background: #e9ecef;
+        }
+
+        .move-btn:focus {
+            outline: 2px solid #4a90d9;
+            outline-offset: 2px;
+        }
+
+        /* Slider with Input Alternative */
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .slider {
+            flex: 1;
+        }
+
+        .slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: #4a90d9;
+            border-radius: 50%;
+            cursor: grab;
+        }
+
+        .slider-input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        /* React Beautiful DnD style elements */
+        [data-rbd-draggable-id] {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        /* Sortable.js style elements */
+        .sortable-ghost {
+            opacity: 0.5;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Dragging Movements Test Page (WCAG 2.5.7)</h1>
+
+    <!-- ==== VIOLATION: Kanban Board ==== -->
+    <section class="test-section violation-section">
+        <h2>❌ Violation: Kanban Board (No Alternatives)</h2>
+        <p class="description">Cards can only be moved by dragging. No buttons or keyboard controls provided.</p>
+
+        <div class="kanban-board" id="kanban-board">
+            <div class="kanban-column">
+                <h3>To Do</h3>
+                <div class="kanban-card" draggable="true" id="task-1">
+                    <strong>Design homepage</strong>
+                    <p>Create mockups for landing page</p>
+                </div>
+                <div class="kanban-card" draggable="true" id="task-2">
+                    <strong>API integration</strong>
+                    <p>Connect to backend services</p>
+                </div>
+            </div>
+
+            <div class="kanban-column">
+                <h3>In Progress</h3>
+                <div class="kanban-card" draggable="true" id="task-3">
+                    <strong>User testing</strong>
+                    <p>Conduct usability tests</p>
+                </div>
+            </div>
+
+            <div class="kanban-column">
+                <h3>Done</h3>
+                <div class="kanban-card" draggable="true" id="task-4">
+                    <strong>Setup project</strong>
+                    <p>Initial repository setup</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==== VIOLATION: Priority List ==== -->
+    <section class="test-section violation-section">
+        <h2>❌ Violation: Priority List (Sortable, No Controls)</h2>
+        <p class="description">Items can only be reordered by drag-and-drop. No move buttons.</p>
+
+        <ul class="priority-list sortable" id="priority-list">
+            <li class="priority-item sortable-item" draggable="true" id="priority-1">
+                <span class="drag-handle">⠿</span>
+                <span class="priority-number">1</span>
+                <span>High priority task</span>
+            </li>
+            <li class="priority-item sortable-item" draggable="true" id="priority-2">
+                <span class="drag-handle">⠿</span>
+                <span class="priority-number">2</span>
+                <span>Medium priority task</span>
+            </li>
+            <li class="priority-item sortable-item" draggable="true" id="priority-3">
+                <span class="drag-handle">⠿</span>
+                <span class="priority-number">3</span>
+                <span>Low priority task</span>
+            </li>
+        </ul>
+    </section>
+
+    <!-- ==== VIOLATION: File List (jQuery UI Style) ==== -->
+    <section class="test-section violation-section">
+        <h2>❌ Violation: File List (jQuery UI Sortable)</h2>
+        <p class="description">Simulates jQuery UI sortable pattern with no alternatives.</p>
+
+        <ul class="file-list ui-sortable" id="file-list">
+            <li class="file-item ui-sortable-handle ui-draggable" id="file-1">
+                <span class="file-icon">📄</span>
+                <span>document.pdf</span>
+            </li>
+            <li class="file-item ui-sortable-handle ui-draggable" id="file-2">
+                <span class="file-icon">🖼️</span>
+                <span>photo.jpg</span>
+            </li>
+            <li class="file-item ui-sortable-handle ui-draggable" id="file-3">
+                <span class="file-icon">📊</span>
+                <span>spreadsheet.xlsx</span>
+            </li>
+        </ul>
+    </section>
+
+    <!-- ==== VIOLATION: React Beautiful DnD Style ==== -->
+    <section class="test-section violation-section">
+        <h2>❌ Violation: react-beautiful-dnd Pattern</h2>
+        <p class="description">Simulates react-beautiful-dnd with data attributes but no alternatives.</p>
+
+        <div id="dnd-container">
+            <div data-rbd-draggable-id="item-1" id="rbd-item-1">Draggable Item 1</div>
+            <div data-rbd-draggable-id="item-2" id="rbd-item-2">Draggable Item 2</div>
+            <div data-rbd-draggable-id="item-3" id="rbd-item-3">Draggable Item 3</div>
+        </div>
+    </section>
+
+    <!-- ==== PASSING: Accessible List ==== -->
+    <section class="test-section passing-section">
+        <h2>✅ Passing: Accessible List (Has Move Buttons)</h2>
+        <p class="description">Items have move up/down buttons as alternatives to dragging.</p>
+
+        <ul class="accessible-list" id="accessible-list">
+            <li class="accessible-item sortable-item" id="accessible-1">
+                <span class="item-content">First item with alternatives</span>
+                <div class="move-controls">
+                    <button class="move-btn move-up" aria-label="Move item up" disabled>↑</button>
+                    <button class="move-btn move-down" aria-label="Move item down">↓</button>
+                </div>
+            </li>
+            <li class="accessible-item sortable-item" id="accessible-2">
+                <span class="item-content">Second item with alternatives</span>
+                <div class="move-controls">
+                    <button class="move-btn move-up" aria-label="Move item up">↑</button>
+                    <button class="move-btn move-down" aria-label="Move item down">↓</button>
+                </div>
+            </li>
+            <li class="accessible-item sortable-item" id="accessible-3">
+                <span class="item-content">Third item with alternatives</span>
+                <div class="move-controls">
+                    <button class="move-btn move-up" aria-label="Move item up">↑</button>
+                    <button class="move-btn move-down" aria-label="Move item down" disabled>↓</button>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- ==== PASSING: Slider with Input ==== -->
+    <section class="test-section passing-section">
+        <h2>✅ Passing: Slider with Number Input</h2>
+        <p class="description">Slider has a number input as an alternative for precise value entry.</p>
+
+        <div class="slider-container" id="volume-control">
+            <label for="volume-slider">Volume</label>
+            <div class="slider" role="slider" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                id="volume-slider">
+                <div class="slider-thumb" draggable="true"></div>
+            </div>
+            <input type="number" class="slider-input" id="volume-value" value="75" min="0" max="100"
+                aria-label="Volume value">
+        </div>
+    </section>
+</body>
+
+</html>

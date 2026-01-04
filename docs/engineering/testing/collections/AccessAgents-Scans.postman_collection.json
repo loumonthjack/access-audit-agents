@@ -1,0 +1,108 @@
+{
+  "info": {
+    "name": "AccessAgents - Single Page Scans",
+    "description": "Single page accessibility scanning endpoints.\n\nIncludes starting scans, checking status, and retrieving violations.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3003/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "sessionId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Start Scan",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    const response = pm.response.json();",
+              "    pm.collectionVariables.set('sessionId', response.id);",
+              "    pm.test('Session ID saved', function() {",
+              "        pm.expect(response.id).to.be.a('string');",
+              "    });",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"url\": \"https://example.com\",\n  \"viewport\": \"desktop\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/scans",
+          "host": ["{{baseUrl}}"],
+          "path": ["scans"]
+        },
+        "description": "Initiates a new accessibility scan workflow for a single URL."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Scan Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/scans/{{sessionId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["scans", "{{sessionId}}"]
+        },
+        "description": "Retrieves the current status of a scan session with violation summary."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Scan Violations",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/scans/{{sessionId}}/violations",
+          "host": ["{{baseUrl}}"],
+          "path": ["scans", "{{sessionId}}", "violations"]
+        },
+        "description": "Retrieves all violations for a scan session, ordered by impact severity."
+      },
+      "response": []
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "AccessAgents - Reports",
+    "description": "Report generation and export endpoints.\n\nIncludes retrieving detailed reports and exporting in various formats.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3003/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "sessionId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Get Report",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reports/{{sessionId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["reports", "{{sessionId}}"]
+        },
+        "description": "Retrieves the detailed accessibility report for a completed scan session."
+      },
+      "response": []
+    },
+    {
+      "name": "Export Report (JSON)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reports/{{sessionId}}/export?format=json",
+          "host": ["{{baseUrl}}"],
+          "path": ["reports", "{{sessionId}}", "export"],
+          "query": [
+            {
+              "key": "format",
+              "value": "json",
+              "description": "Export format: json or html"
+            }
+          ]
+        },
+        "description": "Exports the report in JSON format for download."
+      },
+      "response": []
+    },
+    {
+      "name": "Export Report (HTML)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reports/{{sessionId}}/export?format=html",
+          "host": ["{{baseUrl}}"],
+          "path": ["reports", "{{sessionId}}", "export"],
+          "query": [
+            {
+              "key": "format",
+              "value": "html",
+              "description": "Export format: json or html"
+            }
+          ]
+        },
+        "description": "Exports the report in HTML format for download."
+      },
+      "response": []
+    }
+  ]
+}

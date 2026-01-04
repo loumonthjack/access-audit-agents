@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<!--
+  Test Fixture: Slider with Input Alternative
+  
+  Tests WCAG 2.2 Success Criterion 2.5.7 - Dragging Movements (passing example)
+  
+  This page demonstrates various slider implementations that DO have
+  single-pointer alternatives, satisfying WCAG 2.5.7.
+  
+  All elements should PASS because they have alternatives:
+  - #range-with-input: Native range with paired number input
+  - #custom-slider-with-input: Custom slider with number input
+  - #slider-with-buttons: Slider with increment/decrement buttons
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider with Alternatives Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            padding: 40px;
+            background: #f5f5f5;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            margin: 30px 0 10px;
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .test-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #28a745;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Native range input */
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #e0e0e0;
+            border-radius: 4px;
+            cursor: grab;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #4a90d9;
+            border-radius: 50%;
+            cursor: grab;
+        }
+
+        input[type="range"]:active::-webkit-slider-thumb {
+            cursor: grabbing;
+        }
+
+        /* Number input */
+        input[type="number"] {
+            width: 80px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #4a90d9;
+            box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.2);
+        }
+
+        /* Custom slider */
+        .custom-slider {
+            flex: 1;
+            height: 8px;
+            background: linear-gradient(to right, #4a90d9 var(--value, 50%), #e0e0e0 var(--value, 50%));
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .custom-slider-thumb {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #4a90d9;
+            border-radius: 50%;
+            top: 50%;
+            left: calc(var(--value, 50%) - 12px);
+            transform: translateY(-50%);
+            cursor: grab;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-slider-thumb:active {
+            cursor: grabbing;
+        }
+
+        /* Increment/Decrement buttons */
+        .btn-control {
+            width: 44px;
+            height: 44px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .btn-control:hover {
+            background: #f0f0f0;
+            border-color: #ccc;
+        }
+
+        .btn-control:focus {
+            outline: none;
+            border-color: #4a90d9;
+            box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.2);
+        }
+
+        .btn-control:active {
+            background: #e0e0e0;
+        }
+
+        /* Value display */
+        .value-display {
+            min-width: 60px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Slider with text labels */
+        .slider-with-labels {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* Select alternative */
+        select {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4a90d9;
+            box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.2);
+        }
+
+        .unit {
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>✅ Sliders with Single-Pointer Alternatives</h1>
+    <p class="subtitle">All examples comply with WCAG 2.5.7 by providing alternatives to dragging.</p>
+
+    <!-- Native Range with Number Input -->
+    <section class="test-section">
+        <h2>Range Slider + Number Input</h2>
+        <p class="description">The native range slider is paired with a number input for precise value entry.</p>
+
+        <div class="form-group">
+            <label for="volume-slider">Volume</label>
+            <div class="slider-row">
+                <input type="range" id="volume-slider" min="0" max="100" value="75">
+                <input type="number" id="volume-input" min="0" max="100" value="75" aria-label="Volume value">
+                <span class="unit">%</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="brightness-slider">Brightness</label>
+            <div class="slider-row">
+                <input type="range" id="brightness-slider" min="0" max="100" value="50">
+                <input type="number" id="brightness-input" min="0" max="100" value="50" aria-label="Brightness value">
+                <span class="unit">%</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Slider with ARIA -->
+    <section class="test-section">
+        <h2>Custom ARIA Slider + Number Input</h2>
+        <p class="description">Custom styled slider with proper ARIA attributes and number input alternative.</p>
+
+        <div class="form-group">
+            <label for="custom-slider">Price Range</label>
+            <div class="slider-row">
+                <div class="custom-slider" role="slider" id="custom-slider" aria-valuenow="250" aria-valuemin="0"
+                    aria-valuemax="500" aria-label="Price range" tabindex="0" style="--value: 50%">
+                    <div class="custom-slider-thumb" draggable="true"></div>
+                </div>
+                <span>$</span>
+                <input type="number" id="price-input" min="0" max="500" value="250" aria-label="Price value">
+            </div>
+        </div>
+    </section>
+
+    <!-- Slider with Increment/Decrement Buttons -->
+    <section class="test-section">
+        <h2>Slider + Increment/Decrement Buttons</h2>
+        <p class="description">Slider with plus/minus buttons for step-by-step value adjustment.</p>
+
+        <div class="form-group">
+            <label>Quantity</label>
+            <div class="slider-row">
+                <button class="btn-control" id="qty-decrease" aria-label="Decrease quantity">−</button>
+                <input type="range" id="qty-slider" min="1" max="10" value="5" aria-label="Quantity slider">
+                <button class="btn-control" id="qty-increase" aria-label="Increase quantity">+</button>
+                <span class="value-display" id="qty-display">5</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Rating</label>
+            <div class="slider-row">
+                <button class="btn-control" id="rating-decrease" aria-label="Decrease rating">−</button>
+                <div role="slider" id="rating-slider" aria-valuenow="3" aria-valuemin="1" aria-valuemax="5"
+                    aria-label="Rating" class="custom-slider" style="--value: 50%">
+                    <div class="custom-slider-thumb" draggable="true"></div>
+                </div>
+                <button class="btn-control" id="rating-increase" aria-label="Increase rating">+</button>
+                <span class="value-display" id="rating-display">★★★☆☆</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slider with Select Dropdown -->
+    <section class="test-section">
+        <h2>Slider + Dropdown Select</h2>
+        <p class="description">Slider with a select dropdown for choosing preset values.</p>
+
+        <div class="form-group">
+            <label for="duration-slider">Duration</label>
+            <div class="slider-row">
+                <input type="range" id="duration-slider" min="0" max="60" value="30" step="15">
+                <select id="duration-select" aria-label="Select duration">
+                    <option value="0">0 min</option>
+                    <option value="15">15 min</option>
+                    <option value="30" selected>30 min</option>
+                    <option value="45">45 min</option>
+                    <option value="60">60 min</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slider with Text Labels -->
+    <section class="test-section">
+        <h2>Slider with Keyboard Instructions</h2>
+        <p class="description">Slider with clear keyboard navigation hints.</p>
+
+        <div class="form-group">
+            <label for="priority-slider">Priority Level</label>
+            <div class="slider-with-labels">
+                <div class="slider-row">
+                    <input type="range" id="priority-slider" min="1" max="5" value="3" step="1">
+                    <input type="number" id="priority-input" min="1" max="5" value="3" aria-label="Priority value">
+                </div>
+                <div class="slider-labels">
+                    <span>Low</span>
+                    <span>Medium</span>
+                    <span>High</span>
+                    <span>Urgent</span>
+                    <span>Critical</span>
+                </div>
+            </div>
+            <div class="keyboard-instructions" style="margin-top: 10px; font-size: 13px; color: #888;">
+                Use arrow keys ← → to adjust, or enter value directly
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

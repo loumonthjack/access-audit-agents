@@ -1,0 +1,69 @@
+# Docker Compose for Local Development
+# 
+# Provides local PostgreSQL database for development without AWS costs.
+# Only AWS Bedrock is connected to cloud for AI features.
+#
+# Usage:
+#   docker-compose up -d     # Start services
+#   docker-compose down      # Stop services
+#   docker-compose logs -f   # View logs
+
+services:
+  # PostgreSQL database (replaces Aurora in development)
+  postgres:
+    image: postgres:15-alpine
+    container_name: accessagents-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: localdev123
+      POSTGRES_DB: accessagents
+    ports:
+      - "5434:5432"  # Use 5434 to avoid conflict with local PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Run migrations on startup (local API migrations for simplified dev schema)
+      - ./apps/api/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # pgAdmin for database management (optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: accessagents-pgadmin
+    profiles:
+      - tools
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@accessagents.local
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Browserless for headless Chrome browser automation
+  # Using ghcr.io/browserless/chromium for Playwright compatibility
+  browserless:
+    image: ghcr.io/browserless/chromium:latest
+    container_name: accessagents-browserless
+    ports:
+      - "3000:3000"
+    environment:
+      CONNECTION_TIMEOUT: 60000
+      MAX_CONCURRENT_SESSIONS: 5
+      TIMEOUT: 60000
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    name: accessagents-postgres-data
+  pgadmin_data:
+    name: accessagents-pgadmin-data
+

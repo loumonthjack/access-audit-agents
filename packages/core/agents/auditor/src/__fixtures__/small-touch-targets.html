@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<!--
+  Test Fixture: Small Touch Targets
+  
+  Tests WCAG 2.2 Success Criterion 2.5.8 - Target Size (Minimum)
+  
+  This page demonstrates interactive elements with target sizes below
+  the 24x24 CSS pixel minimum required by WCAG 2.5.8.
+  
+  Violations (< 24x24):
+  - #tiny-btn: 16x16px button
+  - #small-close: 12x12px close button
+  - #mini-icon-btn: 18x18px icon button
+  - .small-link: 20px height links
+  - #compact-checkbox: Small custom checkbox
+  
+  Passing elements (>= 24x24):
+  - #proper-btn: 44x44px button (AAA target)
+  - #adequate-btn: 24x24px button (minimum)
+  - .large-link: Links with proper padding
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target Size Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            margin: 30px 0 10px;
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .test-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .violation-section {
+            border-left: 4px solid #dc3545;
+        }
+
+        .passing-section {
+            border-left: 4px solid #28a745;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .size-label {
+            display: inline-block;
+            font-size: 11px;
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            color: #666;
+        }
+
+        .example-row {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ==== VIOLATIONS: Too Small ==== */
+
+        /* Tiny button - 16x16 */
+        #tiny-btn {
+            width: 16px;
+            height: 16px;
+            padding: 0;
+            border: none;
+            background: #4a90d9;
+            color: white;
+            font-size: 10px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        /* Small close button - 12x12 */
+        #small-close {
+            width: 12px;
+            height: 12px;
+            padding: 0;
+            border: none;
+            background: #dc3545;
+            color: white;
+            font-size: 8px;
+            line-height: 12px;
+            text-align: center;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Mini icon button - 18x18 */
+        #mini-icon-btn {
+            width: 18px;
+            height: 18px;
+            padding: 0;
+            border: 1px solid #ccc;
+            background: white;
+            font-size: 12px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        /* Small icon buttons group - 20x20 */
+        .icon-btn-small {
+            width: 20px;
+            height: 20px;
+            padding: 0;
+            border: 1px solid #ddd;
+            background: white;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Small links - height < 24px */
+        .small-link {
+            display: inline-block;
+            padding: 4px 8px;
+            font-size: 12px;
+            color: #4a90d9;
+            text-decoration: none;
+            /* Total height: ~20px */
+        }
+
+        .small-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Compact checkboxes */
+        .compact-checkbox {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+
+        /* Tiny radio buttons */
+        .tiny-radio {
+            width: 12px;
+            height: 12px;
+            cursor: pointer;
+        }
+
+        /* Small pagination */
+        .pagination-small {
+            display: flex;
+            gap: 4px;
+        }
+
+        .page-btn-small {
+            width: 22px;
+            height: 22px;
+            padding: 0;
+            border: 1px solid #ddd;
+            background: white;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Rating stars - too small */
+        .rating-small {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star-small {
+            width: 16px;
+            height: 16px;
+            padding: 0;
+            border: none;
+            background: none;
+            font-size: 14px;
+            cursor: pointer;
+            color: #ffc107;
+        }
+
+        /* ==== PASSING: Adequate Size ==== */
+
+        /* Proper button - 44x44 (AAA) */
+        #proper-btn {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: none;
+            background: #28a745;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Adequate button - 24x24 (minimum) */
+        #adequate-btn {
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            border: none;
+            background: #28a745;
+            color: white;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Large icon buttons - 32x32 */
+        .icon-btn-large {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border: 1px solid #28a745;
+            background: white;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #28a745;
+        }
+
+        /* Large links with proper touch area */
+        .large-link {
+            display: inline-block;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #28a745;
+            text-decoration: none;
+            border: 1px solid #28a745;
+            border-radius: 6px;
+            /* Total size well above 24x24 */
+        }
+
+        /* Proper checkboxes */
+        .proper-checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            cursor: pointer;
+            min-height: 44px;
+        }
+
+        .proper-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        /* Large pagination */
+        .pagination-large {
+            display: flex;
+            gap: 8px;
+        }
+
+        .page-btn-large {
+            min-width: 36px;
+            height: 36px;
+            padding: 0 12px;
+            border: 1px solid #28a745;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* Rating stars - proper size */
+        .rating-large {
+            display: flex;
+            gap: 4px;
+        }
+
+        .star-large {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border: none;
+            background: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ffc107;
+        }
+
+        /* Focus styles for all interactive elements */
+        button:focus,
+        a:focus,
+        input:focus {
+            outline: 3px solid #4a90d9;
+            outline-offset: 2px;
+        }
+
+        /* Toolbar example */
+        .toolbar {
+            display: flex;
+            gap: 4px;
+            padding: 8px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+
+        .toolbar-btn-small {
+            width: 20px;
+            height: 20px;
+            border: none;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .toolbar-btn-large {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Target Size Test Page (WCAG 2.5.8)</h1>
+    <p class="subtitle">Minimum target size is 24×24 CSS pixels</p>
+
+    <!-- ==== VIOLATIONS ==== -->
+
+    <section class="test-section violation-section">
+        <h2>❌ Violation: Tiny Buttons</h2>
+        <p class="description">These buttons are below the 24×24 minimum target size.</p>
+
+        <div class="example-row">
+            <div class="example-item">
+                <button id="tiny-btn" aria-label="Tiny button">×</button>
+                <span class="size-label">16×16</span>
+            </div>
+
+            <div class="example-item">
+                <button id="small-close" aria-label="Close">×</button>
+                <span class="size-label">12×12</span>
+            </div>
+
+            <div class="example-item">
+                <button id="mini-icon-btn" aria-label="Settings">⚙</button>
+                <span class="size-label">18×18</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="test-section violation-section">
+        <h2>❌ Violation: Small Icon Button Group</h2>
+        <p class="description">Icon buttons commonly used in toolbars, sized at 20×20.</p>
+
+        <div class="toolbar">
+            <button class="toolbar-btn-small icon-btn-small" aria-label="Bold">B</button>
+            <button class="toolbar-btn-small icon-btn-small" aria-label="Italic">I</button>
+            <button class="toolbar-btn-small icon-btn-small" aria-label="Underline">U</button>
+            <button class="toolbar-btn-small icon-btn-small" aria-label="Link">🔗</button>
+            <button class="toolbar-btn-small icon-btn-small" aria-label="Image">🖼</button>
+        </div>
+        <span class="size-label">Each: 20×20</span>
+    </section>
+
+    <section class="test-section violation-section">
+        <h2>❌ Violation: Small Links</h2>
+        <p class="description">Links with insufficient padding, resulting in small touch targets.</p>
+
+        <div class="example-row">
+            <a href="#" class="small-link" id="link-terms">Terms</a>
+            <a href="#" class="small-link" id="link-privacy">Privacy</a>
+            <a href="#" class="small-link" id="link-help">Help</a>
+        </div>
+        <span class="size-label">Height: ~20px</span>
+    </section>
+
+    <section class="test-section violation-section">
+        <h2>❌ Violation: Small Form Controls</h2>
+        <p class="description">Checkboxes and radio buttons that are too small.</p>
+
+        <div class="example-row">
+            <div class="example-item">
+                <input type="checkbox" class="compact-checkbox" id="compact-checkbox">
+                <label for="compact-checkbox">Compact checkbox</label>
+                <span class="size-label">14×14</span>
+            </div>
+
+            <div class="example-item">
+                <input type="radio" class="tiny-radio" name="tiny-group" id="tiny-radio">
+                <label for="tiny-radio">Tiny radio</label>
+                <span class="size-label">12×12</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="test-section violation-section">
+        <h2>❌ Violation: Small Pagination</h2>
+        <p class="description">Pagination buttons below minimum size.</p>
+
+        <div class="pagination-small">
+            <button class="page-btn-small" aria-label="Previous page">‹</button>
+            <button class="page-btn-small" id="page-1">1</button>
+            <button class="page-btn-small" id="page-2">2</button>
+            <button class="page-btn-small" id="page-3">3</button>
+            <button class="page-btn-small" aria-label="Next page">›</button>
+        </div>
+        <span class="size-label">Each: 22×22</span>
+    </section>
+
+    <section class="test-section violation-section">
+        <h2>❌ Violation: Small Rating Stars</h2>
+        <p class="description">Interactive star rating with 16×16 touch targets.</p>
+
+        <div class="rating-small">
+            <button class="star-small" aria-label="1 star">★</button>
+            <button class="star-small" aria-label="2 stars">★</button>
+            <button class="star-small" aria-label="3 stars">★</button>
+            <button class="star-small" aria-label="4 stars">☆</button>
+            <button class="star-small" aria-label="5 stars">☆</button>
+        </div>
+        <span class="size-label">Each: 16×16</span>
+    </section>
+
+    <!-- ==== PASSING ==== -->
+
+    <section class="test-section passing-section">
+        <h2>✅ Passing: Properly Sized Buttons</h2>
+        <p class="description">Buttons meeting or exceeding the 24×24 minimum.</p>
+
+        <div class="example-row">
+            <div class="example-item">
+                <button id="adequate-btn" aria-label="Minimum">✓</button>
+                <span class="size-label">24×24 (min)</span>
+            </div>
+
+            <div class="example-item">
+                <button id="proper-btn" aria-label="Optimal">✓</button>
+                <span class="size-label">44×44 (AAA)</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="test-section passing-section">
+        <h2>✅ Passing: Large Icon Button Group</h2>
+        <p class="description">Toolbar with adequately sized icon buttons.</p>
+
+        <div class="toolbar">
+            <button class="toolbar-btn-large icon-btn-large" aria-label="Bold">B</button>
+            <button class="toolbar-btn-large icon-btn-large" aria-label="Italic">I</button>
+            <button class="toolbar-btn-large icon-btn-large" aria-label="Underline">U</button>
+            <button class="toolbar-btn-large icon-btn-large" aria-label="Link">🔗</button>
+        </div>
+        <span class="size-label">Each: 36×36</span>
+    </section>
+
+    <section class="test-section passing-section">
+        <h2>✅ Passing: Properly Sized Links</h2>
+        <p class="description">Links with sufficient padding for touch targets.</p>
+
+        <div class="example-row">
+            <a href="#" class="large-link" id="link-about-large">About Us</a>
+            <a href="#" class="large-link" id="link-contact-large">Contact</a>
+        </div>
+    </section>
+
+    <section class="test-section passing-section">
+        <h2>✅ Passing: Properly Sized Form Controls</h2>
+        <p class="description">Checkboxes with sufficient touch area through padding.</p>
+
+        <label class="proper-checkbox-container">
+            <input type="checkbox" class="proper-checkbox" id="proper-checkbox">
+            <span>Properly sized checkbox</span>
+        </label>
+        <span class="size-label">24×24 input, 44px touch area</span>
+    </section>
+
+    <section class="test-section passing-section">
+        <h2>✅ Passing: Properly Sized Pagination</h2>
+        <p class="description">Pagination buttons with adequate target size.</p>
+
+        <div class="pagination-large">
+            <button class="page-btn-large" aria-label="Previous page">‹ Prev</button>
+            <button class="page-btn-large">1</button>
+            <button class="page-btn-large">2</button>
+            <button class="page-btn-large">3</button>
+            <button class="page-btn-large" aria-label="Next page">Next ›</button>
+        </div>
+        <span class="size-label">Height: 36px</span>
+    </section>
+
+    <section class="test-section passing-section">
+        <h2>✅ Passing: Properly Sized Rating Stars</h2>
+        <p class="description">Star rating with adequate touch targets.</p>
+
+        <div class="rating-large">
+            <button class="star-large" aria-label="1 star">★</button>
+            <button class="star-large" aria-label="2 stars">★</button>
+            <button class="star-large" aria-label="3 stars">★</button>
+            <button class="star-large" aria-label="4 stars">☆</button>
+            <button class="star-large" aria-label="5 stars">☆</button>
+        </div>
+        <span class="size-label">Each: 32×32</span>
+    </section>
+</body>
+
+</html>
