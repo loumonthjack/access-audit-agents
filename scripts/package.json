@@ -5,9 +5,14 @@
   "type": "module",
   "scripts": {
     "test": "vitest --run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:bats": "bats security/tests/*.bats",
+    "test:security": "bats security/tests/*.bats"
   },
   "devDependencies": {
+    "bats": "^1.11.0",
+    "bats-assert": "^2.0.0",
+    "bats-support": "^0.3.0",
     "fast-check": "^4.5.2",
     "typescript": "~5.9.3",
     "vitest": "^4.0.16"

@@ -22,3 +22,39 @@ pre-push:
     branch-check:
       run: ./scripts/check-branch-name.sh
       fail_text: "Branch name does not follow naming conventions."
+
+    # Security Scanning Commands
+    # These commands scan for vulnerabilities in dependencies and Docker images.
+    # Set SKIP_SECURITY_SCAN=true to bypass all security scans.
+    # Set SEVERITY_THRESHOLD to control blocking behavior (critical, high, moderate, low).
+
+    security-npm:
+      run: ./scripts/security/npm-audit.sh
+      env:
+        SEVERITY_THRESHOLD: high
+      fail_text: |
+        NPM security audit failed. High or critical vulnerabilities found.
+        Run 'npm audit' to see details.
+        Run 'npm audit fix' to automatically fix vulnerabilities.
+        Set SKIP_SECURITY_SCAN=true to bypass (not recommended).
+      skip:
+        - ref: refs/heads/hotfix/*
+
+    security-docker:
+      run: ./scripts/security/docker-scan.sh
+      glob: "docker-compose.yml,**/Dockerfile"
+      env:
+        SEVERITY_THRESHOLD: critical
+      fail_text: |
+        Docker image security scan failed. Critical vulnerabilities found.
+        Run 'trivy image <image>' for detailed vulnerability info.
+        Update base images to latest patched versions.
+        Set SKIP_SECURITY_SCAN=true to bypass (not recommended).
+
+    security-lockfile:
+      run: ./scripts/security/lockfile-check.sh
+      fail_text: |
+        Lockfile consistency check failed.
+        Run 'npm install' to regenerate package-lock.json.
+        Ensure package.json and package-lock.json are in sync.
+        Commit the updated lockfile before pushing.
