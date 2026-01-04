@@ -50,20 +50,20 @@ export type AuthProviderType = 'cognito' | 'google' | 'github' | 'local';
  * Counts of violations by impact level
  */
 export interface ViolationCounts {
-    total: number;
-    critical: number;
-    serious: number;
-    moderate: number;
-    minor: number;
+  total: number;
+  critical: number;
+  serious: number;
+  moderate: number;
+  minor: number;
 }
 
 /**
  * Counts of fixes by status
  */
 export interface FixCounts {
-    fixed: number;
-    skipped: number;
-    pending: number;
+  fixed: number;
+  skipped: number;
+  pending: number;
 }
 
 /**
@@ -71,15 +71,15 @@ export interface FixCounts {
  * Requirements: 2.1
  */
 export interface ScanSession {
-    id: string;
-    url: string;
-    viewport: Viewport;
-    status: SessionStatus;
-    createdAt: string;
-    completedAt?: string;
-    errorMessage?: string;
-    violationCounts: ViolationCounts;
-    fixCounts: FixCounts;
+  id: string;
+  url: string;
+  viewport: Viewport;
+  status: SessionStatus;
+  createdAt: string;
+  completedAt?: string;
+  errorMessage?: string;
+  violationCounts: ViolationCounts;
+  fixCounts: FixCounts;
 }
 
 /**
@@ -87,17 +87,17 @@ export interface ScanSession {
  * Requirements: 2.1, 3.2
  */
 export interface Violation {
-    id: string;
-    ruleId: string;
-    impact: ImpactLevel;
-    description: string;
-    help: string;
-    helpUrl: string;
-    selector: string;
-    html: string;
-    status: ViolationStatus;
-    fix?: AppliedFix;
-    skipReason?: string;
+  id: string;
+  ruleId: string;
+  impact: ImpactLevel;
+  description: string;
+  help: string;
+  helpUrl: string;
+  selector: string;
+  html: string;
+  status: ViolationStatus;
+  fix?: AppliedFix;
+  skipReason?: string;
 }
 
 /**
@@ -105,26 +105,26 @@ export interface Violation {
  * Requirements: 4.1, 4.4
  */
 export interface AppliedFix {
-    violationId: string;
-    ruleId: string;
-    impact: ImpactLevel;
-    description: string;
-    selector: string;
-    fixType: FixType;
-    beforeHtml: string;
-    afterHtml: string;
-    reasoning: string;
-    appliedAt: string;
+  violationId: string;
+  ruleId: string;
+  impact: ImpactLevel;
+  description: string;
+  selector: string;
+  fixType: FixType;
+  beforeHtml: string;
+  afterHtml: string;
+  reasoning: string;
+  appliedAt: string;
 }
 
 /**
  * Summary statistics for a remediation report
  */
 export interface ReportSummary {
-    totalViolations: number;
-    fixedCount: number;
-    skippedCount: number;
-    humanReviewCount: number;
+  totalViolations: number;
+  fixedCount: number;
+  skippedCount: number;
+  humanReviewCount: number;
 }
 
 /**
@@ -132,21 +132,21 @@ export interface ReportSummary {
  * Requirements: 5.1
  */
 export interface ReportViolation {
-    id: string;
-    ruleId: string;
-    impact: ImpactLevel;
-    description: string;
-    selector: string;
-    html: string;
-    status: ViolationStatus;
-    skipReason?: string;
-    screenshot?: string;
-    fix?: {
-        type: FixType;
-        beforeHtml: string;
-        afterHtml: string;
-        reasoning: string;
-    };
+  id: string;
+  ruleId: string;
+  impact: ImpactLevel;
+  description: string;
+  selector: string;
+  html: string;
+  status: ViolationStatus;
+  skipReason?: string;
+  screenshot?: string;
+  fix?: {
+    type: FixType;
+    beforeHtml: string;
+    afterHtml: string;
+    reasoning: string;
+  };
 }
 
 /**
@@ -154,17 +154,17 @@ export interface ReportViolation {
  * Requirements: 5.1, 5.2, 5.3, 5.4
  */
 export interface RemediationReport {
-    sessionId: string;
-    url: string;
-    viewport: Viewport;
-    timestamp: string;
-    duration: number; // milliseconds
-    pageScreenshot?: string;
-    summary: ReportSummary;
-    violations: ReportViolation[];
-    fixes: AppliedFix[];
-    skipped: SkippedViolation[];
-    humanReview: HumanReviewItem[];
+  sessionId: string;
+  url: string;
+  viewport: Viewport;
+  timestamp: string;
+  duration: number; // milliseconds
+  pageScreenshot?: string;
+  summary: ReportSummary;
+  violations: ReportViolation[];
+  fixes: AppliedFix[];
+  skipped: SkippedViolation[];
+  humanReview: HumanReviewItem[];
 }
 
 /**
@@ -172,14 +172,14 @@ export interface RemediationReport {
  * Requirements: 5.4
  */
 export interface SkippedViolation {
-    violationId: string;
-    ruleId: string;
-    impact: ImpactLevel;
-    description: string;
-    selector: string;
-    html: string;
-    reason: string;
-    attempts: number;
+  violationId: string;
+  ruleId: string;
+  impact: ImpactLevel;
+  description: string;
+  selector: string;
+  html: string;
+  reason: string;
+  attempts: number;
 }
 
 /**
@@ -187,11 +187,11 @@ export interface SkippedViolation {
  * Requirements: 5.2
  */
 export interface HumanReviewItem {
-    violationId: string;
-    ruleId: string;
-    selector: string;
-    reason: string;
-    suggestedAction: string;
+  violationId: string;
+  ruleId: string;
+  selector: string;
+  reason: string;
+  suggestedAction: string;
 }
 
 /**
@@ -199,11 +199,11 @@ export interface HumanReviewItem {
  * Requirements: 7.1, 7.4
  */
 export interface User {
-    id: string;
-    email: string;
-    name?: string;
-    avatarUrl?: string;
-    authProvider: AuthProviderType;
+  id: string;
+  email: string;
+  name?: string;
+  avatarUrl?: string;
+  authProvider: AuthProviderType;
 }
 
 /**
@@ -211,8 +211,8 @@ export interface User {
  * Requirements: 7.2
  */
 export interface Credentials {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 // ============================================================================
@@ -235,19 +235,19 @@ export type BatchPageStatus = 'pending' | 'running' | 'completed' | 'failed' | '
  * Requirements: 8.1
  */
 export interface BatchSession {
-    id: string;
-    name?: string;
-    status: BatchStatus;
-    viewport: Viewport;
-    totalPages: number;
-    completedPages: number;
-    failedPages: number;
-    totalViolations: number;
-    sitemapUrl?: string;
-    createdAt: string;
-    startedAt?: string;
-    completedAt?: string;
-    pausedAt?: string;
+  id: string;
+  name?: string;
+  status: BatchStatus;
+  viewport: Viewport;
+  totalPages: number;
+  completedPages: number;
+  failedPages: number;
+  totalViolations: number;
+  sitemapUrl?: string;
+  createdAt: string;
+  startedAt?: string;
+  completedAt?: string;
+  pausedAt?: string;
 }
 
 /**
@@ -255,15 +255,15 @@ export interface BatchSession {
  * Requirements: 8.1
  */
 export interface BatchPage {
-    id: string;
-    batchId: string;
-    url: string;
-    status: BatchPageStatus;
-    scanSessionId?: string;
-    violationCount: number;
-    errorMessage?: string;
-    startedAt?: string;
-    completedAt?: string;
+  id: string;
+  batchId: string;
+  url: string;
+  status: BatchPageStatus;
+  scanSessionId?: string;
+  violationCount: number;
+  errorMessage?: string;
+  startedAt?: string;
+  completedAt?: string;
 }
 
 /**
@@ -271,11 +271,11 @@ export interface BatchPage {
  * Requirements: 9.1
  */
 export interface BatchProgress {
-    completedPages: number;
-    totalPages: number;
-    failedPages: number;
-    totalViolations: number;
-    estimatedTimeRemaining: number; // seconds
+  completedPages: number;
+  totalPages: number;
+  failedPages: number;
+  totalViolations: number;
+  estimatedTimeRemaining: number; // seconds
 }
 
 /**
@@ -283,13 +283,13 @@ export interface BatchProgress {
  * Requirements: 9.2, 10.2
  */
 export interface BatchSummary {
-    totalPages: number;
-    successfulPages: number;
-    failedPages: number;
-    totalViolations: number;
-    violationsByImpact: Record<ImpactLevel, number>;
-    violationsByRule: Record<string, number>;
-    mostCommonViolations: BatchViolationSummary[];
+  totalPages: number;
+  successfulPages: number;
+  failedPages: number;
+  totalViolations: number;
+  violationsByImpact: Record<ImpactLevel, number>;
+  violationsByRule: Record<string, number>;
+  mostCommonViolations: BatchViolationSummary[];
 }
 
 /**
@@ -297,11 +297,11 @@ export interface BatchSummary {
  * Requirements: 10.4
  */
 export interface BatchViolationSummary {
-    ruleId: string;
-    description: string;
-    count: number;
-    impact: ImpactLevel;
-    affectedPages: number;
+  ruleId: string;
+  description: string;
+  count: number;
+  impact: ImpactLevel;
+  affectedPages: number;
 }
 
 /**
@@ -309,34 +309,34 @@ export interface BatchViolationSummary {
  * Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6
  */
 export interface BatchReport {
-    batchId: string;
-    name?: string;
-    sitemapUrl?: string;
-    viewport: Viewport;
-    createdAt: string;
-    completedAt: string;
-    duration: number;
-    summary: {
-        totalPages: number;
-        successfulPages: number;
-        failedPages: number;
-        totalViolations: number;
-    };
-    violationsByImpact: Record<ImpactLevel, number>;
-    violationsByRule: Array<{
-        ruleId: string;
-        description: string;
-        count: number;
-        impact: ImpactLevel;
-    }>;
-    pages: Array<{
-        url: string;
-        status: BatchPageStatus;
-        violationCount: number;
-        scanSessionId?: string;
-        errorMessage?: string;
-    }>;
-    recommendations: Array<BatchRecommendation>;
+  batchId: string;
+  name?: string;
+  sitemapUrl?: string;
+  viewport: Viewport;
+  createdAt: string;
+  completedAt: string;
+  duration: number;
+  summary: {
+    totalPages: number;
+    successfulPages: number;
+    failedPages: number;
+    totalViolations: number;
+  };
+  violationsByImpact: Record<ImpactLevel, number>;
+  violationsByRule: Array<{
+    ruleId: string;
+    description: string;
+    count: number;
+    impact: ImpactLevel;
+  }>;
+  pages: Array<{
+    url: string;
+    status: BatchPageStatus;
+    violationCount: number;
+    scanSessionId?: string;
+    errorMessage?: string;
+  }>;
+  recommendations: Array<BatchRecommendation>;
 }
 
 /**
@@ -344,11 +344,11 @@ export interface BatchReport {
  * Requirements: 10.6
  */
 export interface BatchRecommendation {
-    priority: number;
-    ruleId: string;
-    description: string;
-    affectedPages: number;
-    suggestedAction: string;
+  priority: number;
+  ruleId: string;
+  description: string;
+  affectedPages: number;
+  suggestedAction: string;
 }
 
 /**
@@ -356,8 +356,8 @@ export interface BatchRecommendation {
  * Requirements: 6.4, 7.3
  */
 export interface ParsedUrl {
-    loc: string;
-    lastmod?: string;
-    changefreq?: string;
-    priority?: number;
+  loc: string;
+  lastmod?: string;
+  changefreq?: string;
+  priority?: number;
 }

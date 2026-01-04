@@ -9,21 +9,21 @@ import './index.css';
 configureAmplify();
 
 async function enableMocking() {
-    // Only enable MSW when explicitly requested via VITE_ENABLE_MSW=true
-    // This prevents mock handlers from intercepting real AWS API calls
-    if (import.meta.env.VITE_ENABLE_MSW === 'true') {
-        const { worker } = await import('@/test/mocks/browser');
-        return worker.start({
-            onUnhandledRequest: 'bypass',
-        });
-    }
-    return Promise.resolve();
+  // Only enable MSW when explicitly requested via VITE_ENABLE_MSW=true
+  // This prevents mock handlers from intercepting real AWS API calls
+  if (import.meta.env.VITE_ENABLE_MSW === 'true') {
+    const { worker } = await import('@/test/mocks/browser');
+    return worker.start({
+      onUnhandledRequest: 'bypass',
+    });
+  }
+  return Promise.resolve();
 }
 
 enableMocking().then(() => {
-    createRoot(document.getElementById('root')!).render(
-        <StrictMode>
-            <RouterProvider router={router} />
-        </StrictMode>
-    );
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>
+  );
 });

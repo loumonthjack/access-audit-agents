@@ -77,10 +77,7 @@ export interface InlineLoaderProps {
   className?: string;
 }
 
-export function InlineLoader({
-  label = 'Loading...',
-  className,
-}: InlineLoaderProps) {
+export function InlineLoader({ label = 'Loading...', className }: InlineLoaderProps) {
   return (
     <span
       className={clsx('inline-flex items-center gap-2', className)}

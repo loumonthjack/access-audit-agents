@@ -18,8 +18,7 @@ const variantStyles: Record<ButtonVariant, string> = {
     'bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-primary-400 disabled:from-primary-300 disabled:to-primary-300',
   secondary:
     'bg-neutral-800 text-neutral-100 border border-neutral-700 shadow-sm hover:bg-neutral-700 hover:border-neutral-600 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-neutral-400',
-  ghost:
-    'bg-transparent text-neutral-300 hover:bg-neutral-800 hover:text-neutral-100',
+  ghost: 'bg-transparent text-neutral-300 hover:bg-neutral-800 hover:text-neutral-100',
   danger:
     'bg-gradient-to-br from-error-600 to-error-700 text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-error-400 disabled:from-error-300 disabled:to-error-300',
 };

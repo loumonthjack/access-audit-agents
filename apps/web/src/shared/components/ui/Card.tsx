@@ -23,17 +23,7 @@ const shadowStyles = {
 };
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  (
-    {
-      children,
-      padding = 'md',
-      shadow = 'sm',
-      border = true,
-      className,
-      ...props
-    },
-    ref
-  ) => {
+  ({ children, padding = 'md', shadow = 'sm', border = true, className, ...props }, ref) => {
     return (
       <div
         ref={ref}
@@ -122,10 +112,7 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
     return (
       <div
         ref={ref}
-        className={clsx(
-          'border-t border-neutral-200 px-4 py-3 bg-neutral-50',
-          className
-        )}
+        className={clsx('border-t border-neutral-200 px-4 py-3 bg-neutral-50', className)}
         {...props}
       >
         {children}

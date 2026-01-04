@@ -3,12 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
 import { toHaveNoViolations } from 'vitest-axe/matchers';
-import {
-  EmptyState,
-  NoResultsEmptyState,
-  NoDataEmptyState,
-  ErrorEmptyState,
-} from '../EmptyState';
+import { EmptyState, NoResultsEmptyState, NoDataEmptyState, ErrorEmptyState } from '../EmptyState';
 import { Button } from '../../ui/Button';
 
 expect.extend({ toHaveNoViolations });
@@ -43,29 +38,17 @@ describe('EmptyState', () => {
     });
 
     it('renders description', () => {
-      render(
-        <EmptyState title="No items" description="Create your first item" />
-      );
+      render(<EmptyState title="No items" description="Create your first item" />);
       expect(screen.getByText('Create your first item')).toBeInTheDocument();
     });
 
     it('renders custom icon', () => {
-      render(
-        <EmptyState
-          title="No items"
-          icon={<span data-testid="custom-icon">🎉</span>}
-        />
-      );
+      render(<EmptyState title="No items" icon={<span data-testid="custom-icon">🎉</span>} />);
       expect(screen.getByTestId('custom-icon')).toBeInTheDocument();
     });
 
     it('renders action slot', () => {
-      render(
-        <EmptyState
-          title="No items"
-          action={<Button>Add item</Button>}
-        />
-      );
+      render(<EmptyState title="No items" action={<Button>Add item</Button>} />);
       expect(screen.getByRole('button', { name: 'Add item' })).toBeInTheDocument();
     });
   });

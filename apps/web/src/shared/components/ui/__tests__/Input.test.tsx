@@ -16,9 +16,7 @@ describe('Input', () => {
     });
 
     it('should have no accessibility violations with error', async () => {
-      const { container } = render(
-        <Input label="Email" errorMessage="Invalid email" />
-      );
+      const { container } = render(<Input label="Email" errorMessage="Invalid email" />);
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
@@ -52,13 +50,7 @@ describe('Input', () => {
     });
 
     it('hides helper text when error is shown', () => {
-      render(
-        <Input
-          label="Email"
-          helperText="Helper text"
-          errorMessage="Error message"
-        />
-      );
+      render(<Input label="Email" helperText="Helper text" errorMessage="Error message" />);
       expect(screen.queryByText('Helper text')).not.toBeInTheDocument();
       expect(screen.getByText('Error message')).toBeInTheDocument();
     });

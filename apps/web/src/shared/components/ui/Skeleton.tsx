@@ -60,12 +60,7 @@ export function SkeletonText({ lines = 3, className }: SkeletonTextProps) {
   return (
     <div className={clsx('space-y-2', className)} aria-hidden="true">
       {Array.from({ length: lines }).map((_, i) => (
-        <Skeleton
-          key={i}
-          variant="text"
-          height={16}
-          width={i === lines - 1 ? '75%' : '100%'}
-        />
+        <Skeleton key={i} variant="text" height={16} width={i === lines - 1 ? '75%' : '100%'} />
       ))}
     </div>
   );
@@ -84,10 +79,7 @@ export function SkeletonCard({
 }: SkeletonCardProps) {
   return (
     <div
-      className={clsx(
-        'rounded-lg border border-neutral-200 bg-white overflow-hidden',
-        className
-      )}
+      className={clsx('rounded-lg border border-neutral-200 bg-white overflow-hidden', className)}
       aria-hidden="true"
     >
       {showHeader && (

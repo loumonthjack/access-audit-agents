@@ -3,32 +3,32 @@
  * Requirements: 6.1, 8.1, 9.1, 10.1
  */
 import type {
-    Viewport,
-    BatchSession,
-    BatchPage,
-    BatchProgress,
-    BatchSummary,
-    BatchReport,
-    BatchRecommendation,
-    BatchStatus,
-    BatchPageStatus,
-    ParsedUrl,
-    ImpactLevel,
+  Viewport,
+  BatchSession,
+  BatchPage,
+  BatchProgress,
+  BatchSummary,
+  BatchReport,
+  BatchRecommendation,
+  BatchStatus,
+  BatchPageStatus,
+  ParsedUrl,
+  ImpactLevel,
 } from '@/types/domain';
 
 // Re-export domain types used in batch scan feature
 export type {
-    Viewport,
-    BatchSession,
-    BatchPage,
-    BatchProgress,
-    BatchSummary,
-    BatchReport,
-    BatchRecommendation,
-    BatchStatus,
-    BatchPageStatus,
-    ParsedUrl,
-    ImpactLevel,
+  Viewport,
+  BatchSession,
+  BatchPage,
+  BatchProgress,
+  BatchSummary,
+  BatchReport,
+  BatchRecommendation,
+  BatchStatus,
+  BatchPageStatus,
+  ParsedUrl,
+  ImpactLevel,
 };
 
 /**
@@ -36,8 +36,8 @@ export type {
  * Requirements: 6.1
  */
 export interface SitemapFormState {
-    sitemapUrl: string;
-    maxUrls: number;
+  sitemapUrl: string;
+  maxUrls: number;
 }
 
 /**
@@ -45,9 +45,9 @@ export interface SitemapFormState {
  * Requirements: 6.1, 6.3
  */
 export interface SitemapFormProps {
-    onUrlsParsed: (urls: ParsedUrl[]) => void;
-    isLoading: boolean;
-    error?: string;
+  onUrlsParsed: (urls: ParsedUrl[]) => void;
+  isLoading: boolean;
+  error?: string;
 }
 
 /**
@@ -55,12 +55,12 @@ export interface SitemapFormProps {
  * Requirements: 6.4, 6.5
  */
 export interface URLPreviewListProps {
-    urls: ParsedUrl[];
-    selectedUrls: Set<string>;
-    onSelectionChange: (selected: Set<string>) => void;
-    onConfirm: () => void;
-    onCancel: () => void;
-    isLoading?: boolean;
+  urls: ParsedUrl[];
+  selectedUrls: Set<string>;
+  onSelectionChange: (selected: Set<string>) => void;
+  onConfirm: () => void;
+  onCancel: () => void;
+  isLoading?: boolean;
 }
 
 /**
@@ -68,10 +68,10 @@ export interface URLPreviewListProps {
  * Requirements: 8.3, 9.1
  */
 export interface BatchProgressProps {
-    batchId: string;
-    onPause?: () => void;
-    onResume?: () => void;
-    onCancel?: () => void;
+  batchId: string;
+  onPause?: () => void;
+  onResume?: () => void;
+  onCancel?: () => void;
 }
 
 /**
@@ -79,7 +79,7 @@ export interface BatchProgressProps {
  * Requirements: 10.1, 10.2
  */
 export interface BatchReportProps {
-    batchId: string;
+  batchId: string;
 }
 
 /**
@@ -87,11 +87,11 @@ export interface BatchReportProps {
  * Requirements: 6.2, 6.4
  */
 export interface SitemapParseResponse {
-    urls: ParsedUrl[];
-    totalCount: number;
-    truncated: boolean;
-    sitemapType: 'standard' | 'index';
-    parseTime: number;
+  urls: ParsedUrl[];
+  totalCount: number;
+  truncated: boolean;
+  sitemapType: 'standard' | 'index';
+  parseTime: number;
 }
 
 /**
@@ -99,8 +99,8 @@ export interface SitemapParseResponse {
  * Requirements: 6.1
  */
 export interface SitemapParseRequest {
-    sitemapUrl: string;
-    maxUrls?: number;
+  sitemapUrl: string;
+  maxUrls?: number;
 }
 
 /**
@@ -108,9 +108,9 @@ export interface SitemapParseRequest {
  * Requirements: 8.1
  */
 export interface CreateBatchScanRequest {
-    urls: string[];
-    viewport: Viewport;
-    name?: string;
+  urls: string[];
+  viewport: Viewport;
+  name?: string;
 }
 
 /**
@@ -118,11 +118,11 @@ export interface CreateBatchScanRequest {
  * Requirements: 9.1
  */
 export interface UseBatchProgressOptions {
-    batchId: string;
-    onPageComplete?: (pageUrl: string, violations: number) => void;
-    onPageFailed?: (pageUrl: string, error: string) => void;
-    onComplete?: (summary: BatchSummary) => void;
-    onError?: (error: string) => void;
+  batchId: string;
+  onPageComplete?: (pageUrl: string, violations: number) => void;
+  onPageFailed?: (pageUrl: string, error: string) => void;
+  onComplete?: (summary: BatchSummary) => void;
+  onError?: (error: string) => void;
 }
 
 /**
@@ -130,11 +130,11 @@ export interface UseBatchProgressOptions {
  * Requirements: 9.1
  */
 export interface UseBatchProgressReturn {
-    batch: BatchSession | undefined;
-    progress: BatchProgress | null;
-    currentPage: string | null;
-    isConnected: boolean;
-    error: string | null;
+  batch: BatchSession | undefined;
+  progress: BatchProgress | null;
+  currentPage: string | null;
+  isConnected: boolean;
+  error: string | null;
 }
 
 /**
@@ -142,9 +142,9 @@ export interface UseBatchProgressReturn {
  * Requirements: 6.5
  */
 export interface URLPreviewPagination {
-    page: number;
-    pageSize: number;
-    totalPages: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
 }
 
 /**
@@ -152,5 +152,5 @@ export interface URLPreviewPagination {
  * Requirements: 6.4
  */
 export interface URLPreviewFilter {
-    searchQuery: string;
+  searchQuery: string;
 }

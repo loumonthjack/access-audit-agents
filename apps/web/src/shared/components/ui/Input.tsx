@@ -1,9 +1,4 @@
-import {
-  forwardRef,
-  useId,
-  type InputHTMLAttributes,
-  type ReactNode,
-} from 'react';
+import { forwardRef, useId, type InputHTMLAttributes, type ReactNode } from 'react';
 import { clsx } from 'clsx';
 
 export type InputState = 'default' | 'error' | 'success';
@@ -19,9 +14,12 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const stateStyles: Record<InputState, string> = {
-  default: 'border-neutral-700 focus:border-primary-500 focus:ring-primary-500/20 bg-neutral-900/50 text-neutral-100 placeholder:text-neutral-500',
-  error: 'border-error-500 focus:border-error-500 focus:ring-error-500/20 bg-neutral-900/50 text-neutral-100 placeholder:text-neutral-500',
-  success: 'border-success-500 focus:border-success-500 focus:ring-success-500/20 bg-neutral-900/50 text-neutral-100 placeholder:text-neutral-500',
+  default:
+    'border-neutral-700 focus:border-primary-500 focus:ring-primary-500/20 bg-neutral-900/50 text-neutral-100 placeholder:text-neutral-500',
+  error:
+    'border-error-500 focus:border-error-500 focus:ring-error-500/20 bg-neutral-900/50 text-neutral-100 placeholder:text-neutral-500',
+  success:
+    'border-success-500 focus:border-success-500 focus:ring-success-500/20 bg-neutral-900/50 text-neutral-100 placeholder:text-neutral-500',
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -107,10 +105,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         ) : (
           <>
             {label && (
-              <label
-                htmlFor={inputId}
-                className="block text-sm font-medium text-neutral-300 mb-2"
-              >
+              <label htmlFor={inputId} className="block text-sm font-medium text-neutral-300 mb-2">
                 {label}
               </label>
             )}

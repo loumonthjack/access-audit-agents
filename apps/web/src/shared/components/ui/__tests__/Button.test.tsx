@@ -73,7 +73,11 @@ describe('Button', () => {
     it('does not call onClick when disabled', async () => {
       const user = userEvent.setup();
       const handleClick = vi.fn();
-      render(<Button onClick={handleClick} disabled>Click me</Button>);
+      render(
+        <Button onClick={handleClick} disabled>
+          Click me
+        </Button>
+      );
 
       await user.click(screen.getByRole('button'));
       expect(handleClick).not.toHaveBeenCalled();
@@ -82,7 +86,11 @@ describe('Button', () => {
     it('does not call onClick when loading', async () => {
       const user = userEvent.setup();
       const handleClick = vi.fn();
-      render(<Button onClick={handleClick} isLoading>Click me</Button>);
+      render(
+        <Button onClick={handleClick} isLoading>
+          Click me
+        </Button>
+      );
 
       await user.click(screen.getByRole('button'));
       expect(handleClick).not.toHaveBeenCalled();

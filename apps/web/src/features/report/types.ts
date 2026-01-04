@@ -2,7 +2,12 @@
  * Report feature types
  * Requirements: 5.1, 5.5
  */
-import type { RemediationReport, AppliedFix, SkippedViolation, HumanReviewItem } from '@/types/domain';
+import type {
+  RemediationReport,
+  AppliedFix,
+  SkippedViolation,
+  HumanReviewItem,
+} from '@/types/domain';
 
 // Re-export domain types used in report feature
 export type { RemediationReport, AppliedFix, SkippedViolation, HumanReviewItem };
@@ -18,8 +23,8 @@ export type ExportFormat = 'json' | 'html';
  * Requirements: 4.1, 4.4
  */
 export interface FixCardProps {
-    fix: AppliedFix;
-    onCopy?: (html: string) => void;
+  fix: AppliedFix;
+  onCopy?: (html: string) => void;
 }
 
 /**
@@ -27,7 +32,7 @@ export interface FixCardProps {
  * Requirements: 5.2
  */
 export interface ReportSummaryProps {
-    summary: RemediationReport['summary'];
+  summary: RemediationReport['summary'];
 }
 
 /**
@@ -35,7 +40,7 @@ export interface ReportSummaryProps {
  * Requirements: 5.1
  */
 export interface ReportViewProps {
-    report: RemediationReport;
+  report: RemediationReport;
 }
 
 /**
@@ -43,6 +48,6 @@ export interface ReportViewProps {
  * Requirements: 5.5
  */
 export interface ExportButtonsProps {
-    sessionId: string;
-    onExport?: (format: ExportFormat) => void;
+  sessionId: string;
+  onExport?: (format: ExportFormat) => void;
 }

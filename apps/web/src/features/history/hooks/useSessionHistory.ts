@@ -16,16 +16,16 @@ import type { SessionHistoryOptions } from '../types';
  * Requirements: 6.1, 6.5
  */
 export function useSessionHistory({ page, limit = 10 }: SessionHistoryOptions) {
-    const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
 
-    // In SaaS mode, wait for auth to be ready before fetching
-    // This prevents 401 errors when the page refreshes and Cognito session is being restored
-    const isAuthReady = isSaasMode() ? (!isAuthLoading && isAuthenticated) : true;
+  // In SaaS mode, wait for auth to be ready before fetching
+  // This prevents 401 errors when the page refreshes and Cognito session is being restored
+  const isAuthReady = isSaasMode() ? !isAuthLoading && isAuthenticated : true;
 
-    return useQuery({
-        queryKey: queryKeys.sessions.list(page),
-        queryFn: () => historyApi.listSessions(page, limit),
-        placeholderData: keepPreviousData,
-        enabled: isAuthReady,
-    });
+  return useQuery({
+    queryKey: queryKeys.sessions.list(page),
+    queryFn: () => historyApi.listSessions(page, limit),
+    placeholderData: keepPreviousData,
+    enabled: isAuthReady,
+  });
 }

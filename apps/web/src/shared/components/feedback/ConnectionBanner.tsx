@@ -1,10 +1,6 @@
 import { clsx } from 'clsx';
 import { Button } from '../ui/Button';
-import {
-  useConnectionStore,
-  type ApiStatus,
-  type WsStatus,
-} from '../../store/connectionStore';
+import { useConnectionStore, type ApiStatus, type WsStatus } from '../../store/connectionStore';
 
 export interface ConnectionBannerProps {
   onRetry?: () => void;
@@ -13,16 +9,11 @@ export interface ConnectionBannerProps {
 
 type ConnectionStatus = 'connected' | 'connecting' | 'disconnected' | 'error';
 
-function getOverallStatus(
-  apiStatus: ApiStatus,
-  wsStatus: WsStatus
-): ConnectionStatus {
+function getOverallStatus(apiStatus: ApiStatus, wsStatus: WsStatus): ConnectionStatus {
   if (apiStatus === 'error') return 'error';
   if (apiStatus === 'disconnected') return 'disconnected';
-  if (wsStatus === 'reconnecting' || wsStatus === 'connecting')
-    return 'connecting';
-  if (wsStatus === 'disconnected' && apiStatus === 'connected')
-    return 'connected';
+  if (wsStatus === 'reconnecting' || wsStatus === 'connecting') return 'connecting';
+  if (wsStatus === 'disconnected' && apiStatus === 'connected') return 'connected';
   return 'connected';
 }
 
@@ -78,14 +69,7 @@ const statusIcons: Record<ConnectionStatus, React.ReactNode> = {
       viewBox="0 0 24 24"
       aria-hidden="true"
     >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
       <path
         className="opacity-75"
         fill="currentColor"
@@ -126,16 +110,10 @@ const statusIcons: Record<ConnectionStatus, React.ReactNode> = {
 };
 
 export function ConnectionBanner({ onRetry, className }: ConnectionBannerProps) {
-  const { apiStatus, wsStatus, reconnectAttempt, lastError } =
-    useConnectionStore();
+  const { apiStatus, wsStatus, reconnectAttempt, lastError } = useConnectionStore();
 
   const overallStatus = getOverallStatus(apiStatus, wsStatus);
-  const message = getStatusMessage(
-    apiStatus,
-    wsStatus,
-    reconnectAttempt,
-    lastError
-  );
+  const message = getStatusMessage(apiStatus, wsStatus, reconnectAttempt, lastError);
 
   // Don't show banner when fully connected
   if (overallStatus === 'connected') {
@@ -144,11 +122,7 @@ export function ConnectionBanner({ onRetry, className }: ConnectionBannerProps) 
 
   return (
     <div
-      className={clsx(
-        'border-b px-4 py-3',
-        statusStyles[overallStatus],
-        className
-      )}
+      className={clsx('border-b px-4 py-3', statusStyles[overallStatus], className)}
       role="status"
       aria-live="polite"
     >
@@ -158,12 +132,11 @@ export function ConnectionBanner({ onRetry, className }: ConnectionBannerProps) 
           <span className="text-sm font-medium">{message}</span>
         </div>
 
-        {(overallStatus === 'disconnected' || overallStatus === 'error') &&
-          onRetry && (
-            <Button variant="secondary" size="sm" onClick={onRetry}>
-              Retry
-            </Button>
-          )}
+        {(overallStatus === 'disconnected' || overallStatus === 'error') && onRetry && (
+          <Button variant="secondary" size="sm" onClick={onRetry}>
+            Retry
+          </Button>
+        )}
       </div>
     </div>
   );

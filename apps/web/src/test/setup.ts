@@ -6,31 +6,31 @@ import { resetMockData, mockWsServer } from './mocks/handlers';
 
 // Polyfill ResizeObserver for HeadlessUI components
 global.ResizeObserver = class ResizeObserver {
-    observe() { }
-    unobserve() { }
-    disconnect() { }
+  observe() {}
+  unobserve() {}
+  disconnect() {}
 };
 
 // Cleanup after each test
 afterEach(() => {
-    cleanup();
+  cleanup();
 });
 
 // MSW setup
 beforeAll(() => {
-    server.listen({ onUnhandledRequest: 'error' });
+  server.listen({ onUnhandledRequest: 'error' });
 });
 
 // Reset mock data before each test
 beforeEach(() => {
-    resetMockData();
-    mockWsServer.clear();
+  resetMockData();
+  mockWsServer.clear();
 });
 
 afterEach(() => {
-    server.resetHandlers();
+  server.resetHandlers();
 });
 
 afterAll(() => {
-    server.close();
+  server.close();
 });

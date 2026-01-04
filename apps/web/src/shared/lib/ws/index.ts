@@ -2,26 +2,22 @@
 export { WebSocketClient } from './client';
 
 export {
-    calculateBackoffDelay,
-    canReconnect,
-    getBackoffSequence,
-    ReconnectionManager,
+  calculateBackoffDelay,
+  canReconnect,
+  getBackoffSequence,
+  ReconnectionManager,
 } from './reconnect';
 
-export {
-    buildWebSocketUrl,
-    isValidWebSocketUrl,
-    parseWebSocketUrl,
-} from './url';
+export { buildWebSocketUrl, isValidWebSocketUrl, parseWebSocketUrl } from './url';
 
 export type {
-    WSConnectionState,
-    ReconnectConfig,
-    WSClientConfig,
-    WSClientEvent,
-    WSEventHandler,
-    ProgressEventHandler,
-    WebSocketConstructor,
+  WSConnectionState,
+  ReconnectConfig,
+  WSClientConfig,
+  WSClientEvent,
+  WSEventHandler,
+  ProgressEventHandler,
+  WebSocketConstructor,
 } from './types';
 
 export type { WebSocketUrlParams } from './url';

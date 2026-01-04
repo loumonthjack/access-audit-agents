@@ -26,17 +26,14 @@ export function MainLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Convert NavLinks to NavItems for mobile sidebar
-  const navItems: NavItem[] = navLinks.map(link => ({
+  const navItems: NavItem[] = navLinks.map((link) => ({
     ...link,
   }));
 
   return (
     <div className="min-h-screen bg-neutral-950">
       {/* Skip link for keyboard navigation */}
-      <a
-        href="#main-content"
-        className="skip-link"
-      >
+      <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
 
@@ -50,11 +47,7 @@ export function MainLayout({
           />
 
           {/* Mobile sidebar */}
-          <Sidebar
-            items={navItems}
-            isOpen={sidebarOpen}
-            onClose={() => setSidebarOpen(false)}
-          />
+          <Sidebar items={navItems} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         </>
       )}
 

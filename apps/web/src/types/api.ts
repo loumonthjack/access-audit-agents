@@ -13,10 +13,10 @@ import type { ScanSession, RemediationReport, Violation } from './domain';
  * Pagination metadata for list responses
  */
 export interface PaginationMeta {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
 }
 
 /**
@@ -24,8 +24,8 @@ export interface PaginationMeta {
  * Requirements: 6.5
  */
 export interface PaginatedResponse<T> {
-    data: T[];
-    pagination: PaginationMeta;
+  data: T[];
+  pagination: PaginationMeta;
 }
 
 // ============================================================================
@@ -38,35 +38,35 @@ export interface PaginatedResponse<T> {
  * Requirements: 10.1
  */
 export interface ApiError {
-    code: string;
-    message: string;
-    details?: Record<string, unknown>;
+  code: string;
+  message: string;
+  details?: Record<string, unknown>;
 }
 
 /**
  * HTTP error codes with user-friendly messages
  */
 export type ApiErrorCode =
-    | 'VALIDATION_ERROR'
-    | 'UNAUTHORIZED'
-    | 'FORBIDDEN'
-    | 'NOT_FOUND'
-    | 'CONFLICT'
-    | 'RATE_LIMITED'
-    | 'INTERNAL_ERROR'
-    | 'SERVICE_UNAVAILABLE'
-    | 'NETWORK_ERROR'
-    | 'TIMEOUT';
+  | 'VALIDATION_ERROR'
+  | 'UNAUTHORIZED'
+  | 'FORBIDDEN'
+  | 'NOT_FOUND'
+  | 'CONFLICT'
+  | 'RATE_LIMITED'
+  | 'INTERNAL_ERROR'
+  | 'SERVICE_UNAVAILABLE'
+  | 'NETWORK_ERROR'
+  | 'TIMEOUT';
 
 /**
  * Extended API error with additional context
  */
 export interface ApiErrorResponse {
-    success: false;
-    error: ApiError;
-    statusCode: number;
-    timestamp: string;
-    requestId?: string;
+  success: false;
+  error: ApiError;
+  statusCode: number;
+  timestamp: string;
+  requestId?: string;
 }
 
 // ============================================================================
@@ -77,17 +77,17 @@ export interface ApiErrorResponse {
  * Generic API response wrapper
  */
 export interface ApiResponse<T> {
-    success: boolean;
-    data?: T;
-    error?: ApiError;
+  success: boolean;
+  data?: T;
+  error?: ApiError;
 }
 
 /**
  * Successful API response
  */
 export interface ApiSuccessResponse<T> {
-    success: true;
-    data: T;
+  success: true;
+  data: T;
 }
 
 // ============================================================================
@@ -133,9 +133,9 @@ export type DeleteSessionResponse = ApiResponse<{ deleted: boolean }>;
  * Requirements: 5.5
  */
 export interface ExportReportResponse {
-    blob: Blob;
-    filename: string;
-    contentType: string;
+  blob: Blob;
+  filename: string;
+  contentType: string;
 }
 
 // ============================================================================
@@ -147,8 +147,8 @@ export interface ExportReportResponse {
  * Requirements: 1.1
  */
 export interface StartScanRequest {
-    url: string;
-    viewport: 'mobile' | 'desktop';
+  url: string;
+  viewport: 'mobile' | 'desktop';
 }
 
 /**
@@ -156,8 +156,8 @@ export interface StartScanRequest {
  * Requirements: 6.5
  */
 export interface ListSessionsParams {
-    page?: number;
-    limit?: number;
+  page?: number;
+  limit?: number;
 }
 
 /**
@@ -165,8 +165,8 @@ export interface ListSessionsParams {
  * Requirements: 5.5
  */
 export interface ExportReportRequest {
-    sessionId: string;
-    format: 'json' | 'html';
+  sessionId: string;
+  format: 'json' | 'html';
 }
 
 // ============================================================================
@@ -177,12 +177,12 @@ export interface ExportReportRequest {
  * Type guard to check if response is successful
  */
 export function isApiSuccess<T>(response: ApiResponse<T>): response is ApiSuccessResponse<T> {
-    return response.success === true && response.data !== undefined;
+  return response.success === true && response.data !== undefined;
 }
 
 /**
  * Type guard to check if response is an error
  */
 export function isApiError<T>(response: ApiResponse<T>): response is ApiErrorResponse {
-    return response.success === false && response.error !== undefined;
+  return response.success === false && response.error !== undefined;
 }

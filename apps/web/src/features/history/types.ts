@@ -12,8 +12,8 @@ export type { ScanSession };
  * Requirements: 6.5
  */
 export interface SessionHistoryOptions {
-    page: number;
-    limit?: number;
+  page: number;
+  limit?: number;
 }
 
 /**
@@ -21,9 +21,9 @@ export interface SessionHistoryOptions {
  * Requirements: 6.2
  */
 export interface SessionCardProps {
-    session: ScanSession;
-    onView: (sessionId: string) => void;
-    onDelete?: (sessionId: string) => void;
+  session: ScanSession;
+  onView: (sessionId: string) => void;
+  onDelete?: (sessionId: string) => void;
 }
 
 /**
@@ -31,10 +31,10 @@ export interface SessionCardProps {
  * Requirements: 6.1
  */
 export interface SessionListProps {
-    sessions: ScanSession[];
-    onView: (sessionId: string) => void;
-    onDelete?: (sessionId: string) => void;
-    isLoading?: boolean;
+  sessions: ScanSession[];
+  onView: (sessionId: string) => void;
+  onDelete?: (sessionId: string) => void;
+  isLoading?: boolean;
 }
 
 /**
@@ -42,9 +42,9 @@ export interface SessionListProps {
  * Requirements: 6.5
  */
 export interface PaginationProps {
-    currentPage: number;
-    totalPages: number;
-    onPageChange: (page: number) => void;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
 /**
@@ -52,8 +52,8 @@ export interface PaginationProps {
  * Requirements: 6.4
  */
 export interface DeleteConfirmDialogProps {
-    isOpen: boolean;
-    sessionUrl: string;
-    onConfirm: () => void;
-    onCancel: () => void;
+  isOpen: boolean;
+  sessionUrl: string;
+  onConfirm: () => void;
+  onCancel: () => void;
 }

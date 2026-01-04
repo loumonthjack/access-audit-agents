@@ -32,9 +32,7 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
           <Fragment key={item.label}>
             <li className="flex items-center">
               {item.current ? (
-                <span className="text-sm font-medium text-neutral-900">
-                  {item.label}
-                </span>
+                <span className="text-sm font-medium text-neutral-900">{item.label}</span>
               ) : (
                 <a
                   href={item.href}

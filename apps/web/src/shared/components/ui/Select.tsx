@@ -85,10 +85,7 @@ export function Select<T = string>({
   return (
     <div className={clsx('w-full', className)}>
       {label && (
-        <label
-          id={`${selectId}-label`}
-          className="mb-2 block text-sm font-medium text-neutral-300"
-        >
+        <label id={`${selectId}-label`} className="mb-2 block text-sm font-medium text-neutral-300">
           {label}
         </label>
       )}
@@ -113,12 +110,7 @@ export function Select<T = string>({
                 : 'border-neutral-700 focus:border-primary-500 focus:ring-primary-500/20 bg-neutral-900/50 text-neutral-100'
             )}
           >
-            <span
-              className={clsx(
-                'block truncate',
-                !selectedOption && 'text-neutral-500'
-              )}
-            >
+            <span className={clsx('block truncate', !selectedOption && 'text-neutral-500')}>
               {selectedOption?.label || placeholder}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -150,10 +142,7 @@ export function Select<T = string>({
                   {({ selected }) => (
                     <>
                       <span
-                        className={clsx(
-                          'block truncate',
-                          selected ? 'font-medium' : 'font-normal'
-                        )}
+                        className={clsx('block truncate', selected ? 'font-medium' : 'font-normal')}
                       >
                         {option.label}
                       </span>

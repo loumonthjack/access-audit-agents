@@ -17,12 +17,7 @@ describe('Select', () => {
   describe('Accessibility', () => {
     it('should have no accessibility violations', async () => {
       const { container } = render(
-        <Select
-          label="Viewport"
-          value="mobile"
-          onChange={() => {}}
-          options={options}
-        />
+        <Select label="Viewport" value="mobile" onChange={() => {}} options={options} />
       );
       const results = await axe(container);
       expect(results).toHaveNoViolations();
@@ -45,26 +40,12 @@ describe('Select', () => {
 
   describe('Rendering', () => {
     it('renders with label', () => {
-      render(
-        <Select
-          label="Viewport"
-          value="mobile"
-          onChange={() => {}}
-          options={options}
-        />
-      );
+      render(<Select label="Viewport" value="mobile" onChange={() => {}} options={options} />);
       expect(screen.getByText('Viewport')).toBeInTheDocument();
     });
 
     it('displays selected option', () => {
-      render(
-        <Select
-          label="Viewport"
-          value="desktop"
-          onChange={() => {}}
-          options={options}
-        />
-      );
+      render(<Select label="Viewport" value="desktop" onChange={() => {}} options={options} />);
       expect(screen.getByRole('button')).toHaveTextContent('Desktop');
     });
 
@@ -111,14 +92,7 @@ describe('Select', () => {
   describe('Interactions', () => {
     it('opens dropdown on click', async () => {
       const user = userEvent.setup();
-      render(
-        <Select
-          label="Viewport"
-          value="mobile"
-          onChange={() => {}}
-          options={options}
-        />
-      );
+      render(<Select label="Viewport" value="mobile" onChange={() => {}} options={options} />);
 
       await user.click(screen.getByRole('button'));
       await waitFor(() => {
@@ -129,14 +103,7 @@ describe('Select', () => {
     it('calls onChange when option is selected', async () => {
       const user = userEvent.setup();
       const handleChange = vi.fn();
-      render(
-        <Select
-          label="Viewport"
-          value="mobile"
-          onChange={handleChange}
-          options={options}
-        />
-      );
+      render(<Select label="Viewport" value="mobile" onChange={handleChange} options={options} />);
 
       await user.click(screen.getByRole('button'));
       await waitFor(() => {
@@ -149,13 +116,7 @@ describe('Select', () => {
     it('does not open when disabled', async () => {
       const user = userEvent.setup();
       render(
-        <Select
-          label="Viewport"
-          value="mobile"
-          onChange={() => {}}
-          options={options}
-          disabled
-        />
+        <Select label="Viewport" value="mobile" onChange={() => {}} options={options} disabled />
       );
 
       await user.click(screen.getByRole('button'));
@@ -166,14 +127,7 @@ describe('Select', () => {
   describe('Keyboard Navigation', () => {
     it('can be focused with Tab', async () => {
       const user = userEvent.setup();
-      render(
-        <Select
-          label="Viewport"
-          value="mobile"
-          onChange={() => {}}
-          options={options}
-        />
-      );
+      render(<Select label="Viewport" value="mobile" onChange={() => {}} options={options} />);
 
       await user.tab();
       expect(screen.getByRole('button')).toHaveFocus();
@@ -181,14 +135,7 @@ describe('Select', () => {
 
     it('opens dropdown with Space', async () => {
       const user = userEvent.setup();
-      render(
-        <Select
-          label="Viewport"
-          value="mobile"
-          onChange={() => {}}
-          options={options}
-        />
-      );
+      render(<Select label="Viewport" value="mobile" onChange={() => {}} options={options} />);
 
       await user.tab();
       await user.keyboard(' ');
@@ -199,14 +146,7 @@ describe('Select', () => {
 
     it('closes dropdown with Escape', async () => {
       const user = userEvent.setup();
-      render(
-        <Select
-          label="Viewport"
-          value="mobile"
-          onChange={() => {}}
-          options={options}
-        />
-      );
+      render(<Select label="Viewport" value="mobile" onChange={() => {}} options={options} />);
 
       await user.click(screen.getByRole('button'));
       await waitFor(() => {

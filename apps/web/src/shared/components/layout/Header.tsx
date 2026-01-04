@@ -22,12 +22,8 @@ function DefaultLogo() {
   return (
     <div className="flex items-center gap-2.5">
       <div className="flex flex-col -space-y-0.25">
-        <span className="text-sm font-bold text-white tracking-tight">
-          AccessAuditAgent
-        </span>
-        <span className="text-[10px] text-neutral-500 font-medium">
-          Accessibility Tool
-        </span>
+        <span className="text-sm font-bold text-white tracking-tight">AccessAuditAgent</span>
+        <span className="text-[10px] text-neutral-500 font-medium">Accessibility Tool</span>
       </div>
     </div>
   );
@@ -53,13 +49,7 @@ function MenuIcon({ className }: { className?: string }) {
   );
 }
 
-export function Header({
-  logo,
-  userMenu,
-  onMenuClick,
-  navLinks = [],
-  className,
-}: HeaderProps) {
+export function Header({ logo, userMenu, onMenuClick, navLinks = [], className }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {

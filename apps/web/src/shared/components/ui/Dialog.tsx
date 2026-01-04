@@ -15,12 +15,7 @@ export interface DialogProps {
   initialFocus?: React.RefObject<HTMLElement | null>;
 }
 
-export function Dialog({
-  isOpen,
-  onClose,
-  children,
-  initialFocus,
-}: DialogProps) {
+export function Dialog({ isOpen, onClose, children, initialFocus }: DialogProps) {
   return (
     <Transition show={isOpen} as={Fragment}>
       <HeadlessDialog
@@ -38,10 +33,7 @@ export function Dialog({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div
-            className="fixed inset-0 bg-black/25 backdrop-blur-sm"
-            aria-hidden="true"
-          />
+          <div className="fixed inset-0 bg-black/25 backdrop-blur-sm" aria-hidden="true" />
         </TransitionChild>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -73,10 +65,7 @@ export interface DialogHeaderProps {
 
 export function DialogHeader({ children, className }: DialogHeaderProps) {
   return (
-    <DialogTitle
-      as="h3"
-      className={clsx('text-lg font-semibold text-neutral-900', className)}
-    >
+    <DialogTitle as="h3" className={clsx('text-lg font-semibold text-neutral-900', className)}>
       {children}
     </DialogTitle>
   );
@@ -97,11 +86,7 @@ export interface DialogFooterProps {
 }
 
 export function DialogFooter({ children, className }: DialogFooterProps) {
-  return (
-    <div className={clsx('mt-6 flex justify-end gap-3', className)}>
-      {children}
-    </div>
-  );
+  return <div className={clsx('mt-6 flex justify-end gap-3', className)}>{children}</div>;
 }
 
 function CloseIcon({ className }: { className?: string }) {
@@ -123,10 +108,7 @@ export interface DialogCloseButtonProps {
   className?: string;
 }
 
-export function DialogCloseButton({
-  onClose,
-  className,
-}: DialogCloseButtonProps) {
+export function DialogCloseButton({ onClose, className }: DialogCloseButtonProps) {
   return (
     <button
       type="button"

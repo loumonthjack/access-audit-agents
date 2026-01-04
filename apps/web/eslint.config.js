@@ -20,6 +20,10 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Allow exporting non-components alongside components (contexts, hooks, etc.)
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    },
   },
   eslintConfigPrettier,
 ])

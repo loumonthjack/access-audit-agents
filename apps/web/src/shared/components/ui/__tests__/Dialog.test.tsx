@@ -3,13 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
 import { toHaveNoViolations } from 'vitest-axe/matchers';
-import {
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  DialogCloseButton,
-} from '../Dialog';
+import { Dialog, DialogHeader, DialogBody, DialogFooter, DialogCloseButton } from '../Dialog';
 import { Button } from '../Button';
 
 expect.extend({ toHaveNoViolations });
@@ -145,7 +139,7 @@ describe('Dialog', () => {
       await user.tab();
       await user.tab();
       await user.tab();
-      
+
       // Focus should cycle within the dialog
       const dialog = screen.getByRole('dialog');
       expect(dialog.contains(document.activeElement)).toBe(true);

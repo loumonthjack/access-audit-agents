@@ -12,37 +12,37 @@ export type { AuthProviderType, Credentials, User };
  * Requirements: 7.1, 8.1
  */
 export interface AuthAdapter {
-    getUser(): Promise<User | null>;
-    login(credentials: Credentials): Promise<User>;
-    loginWithSSO(provider: 'google' | 'github'): Promise<User>;
-    logout(): Promise<void>;
-    getToken(): Promise<string | null>;
+  getUser(): Promise<User | null>;
+  login(credentials: Credentials): Promise<User>;
+  loginWithSSO(provider: 'google' | 'github'): Promise<User>;
+  logout(): Promise<void>;
+  getToken(): Promise<string | null>;
 }
 
 /**
  * Authentication context value provided to components
  */
 export interface AuthContextValue {
-    user: User | null;
-    isAuthenticated: boolean;
-    isLoading: boolean;
-    login: (credentials: Credentials) => Promise<void>;
-    loginWithSSO: (provider: 'google' | 'github') => Promise<void>;
-    logout: () => Promise<void>;
-    /** Get the current auth token for API requests */
-    getToken: () => Promise<string | null>;
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  login: (credentials: Credentials) => Promise<void>;
+  loginWithSSO: (provider: 'google' | 'github') => Promise<void>;
+  logout: () => Promise<void>;
+  /** Get the current auth token for API requests */
+  getToken: () => Promise<string | null>;
 }
 
 /**
  * Configuration for authentication
  */
 export interface AuthConfig {
-    mode: 'saas' | 'self-hosted';
-    cognito?: {
-        userPoolId: string;
-        clientId: string;
-        region: string;
-        domain?: string;
-    };
-    localEndpoint?: string;
+  mode: 'saas' | 'self-hosted';
+  cognito?: {
+    userPoolId: string;
+    clientId: string;
+    region: string;
+    domain?: string;
+  };
+  localEndpoint?: string;
 }

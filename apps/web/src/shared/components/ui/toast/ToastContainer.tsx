@@ -109,18 +109,13 @@ function ToastItem({ toast, onRemove }: ToastItemProps) {
 
   return (
     <div
-      className={clsx(
-        'flex w-80 items-start gap-3 rounded-lg border p-4 shadow-lg',
-        bg
-      )}
+      className={clsx('flex w-80 items-start gap-3 rounded-lg border p-4 shadow-lg', bg)}
       role="alert"
     >
       <div className="flex-shrink-0">{icon}</div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-neutral-900">{toast.title}</p>
-        {toast.message && (
-          <p className="mt-1 text-sm text-neutral-600">{toast.message}</p>
-        )}
+        {toast.message && <p className="mt-1 text-sm text-neutral-600">{toast.message}</p>}
       </div>
       <button
         type="button"

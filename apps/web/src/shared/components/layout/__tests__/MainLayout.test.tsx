@@ -112,7 +112,7 @@ describe('MainLayout', () => {
       );
 
       await user.click(screen.getByRole('button', { name: 'Open navigation menu' }));
-      
+
       await waitFor(() => {
         // Mobile sidebar should be visible
         expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -129,14 +129,14 @@ describe('MainLayout', () => {
 
       // Open sidebar
       await user.click(screen.getByRole('button', { name: 'Open navigation menu' }));
-      
+
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
       });
 
       // Close sidebar
       await user.click(screen.getByRole('button', { name: 'Close sidebar' }));
-      
+
       await waitFor(() => {
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
       });
@@ -154,7 +154,7 @@ describe('MainLayout', () => {
 
       const skipLink = screen.getByText('Skip to main content');
       await user.tab();
-      
+
       // Skip link should be focusable
       expect(skipLink).toHaveClass('skip-link');
     });

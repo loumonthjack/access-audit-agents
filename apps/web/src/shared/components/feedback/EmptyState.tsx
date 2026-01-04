@@ -29,13 +29,7 @@ function DefaultIcon() {
   );
 }
 
-export function EmptyState({
-  icon,
-  title,
-  description,
-  action,
-  className,
-}: EmptyStateProps) {
+export function EmptyState({ icon, title, description, action, className }: EmptyStateProps) {
   return (
     <div
       className={clsx(
@@ -45,9 +39,7 @@ export function EmptyState({
     >
       <div className="mb-4">{icon || <DefaultIcon />}</div>
       <h3 className="text-lg font-medium text-neutral-900">{title}</h3>
-      {description && (
-        <p className="mt-2 max-w-sm text-sm text-neutral-500">{description}</p>
-      )}
+      {description && <p className="mt-2 max-w-sm text-sm text-neutral-500">{description}</p>}
       {action && <div className="mt-6">{action}</div>}
     </div>
   );
@@ -60,10 +52,7 @@ export interface NoResultsEmptyStateProps {
   onClear?: () => void;
 }
 
-export function NoResultsEmptyState({
-  searchTerm,
-  onClear,
-}: NoResultsEmptyStateProps) {
+export function NoResultsEmptyState({ searchTerm, onClear }: NoResultsEmptyStateProps) {
   return (
     <EmptyState
       icon={
@@ -109,10 +98,7 @@ export interface NoDataEmptyStateProps {
   action?: ReactNode;
 }
 
-export function NoDataEmptyState({
-  entityName = 'items',
-  action,
-}: NoDataEmptyStateProps) {
+export function NoDataEmptyState({ entityName = 'items', action }: NoDataEmptyStateProps) {
   return (
     <EmptyState
       icon={

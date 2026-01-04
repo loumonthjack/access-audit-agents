@@ -12,13 +12,13 @@ import { historyApi } from '../api/historyApi';
  * Requirements: 6.4
  */
 export function useDeleteSession() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (sessionId: string) => historyApi.deleteSession(sessionId),
-        onSuccess: () => {
-            // Invalidate all session queries to ensure fresh data
-            queryClient.invalidateQueries({ queryKey: queryKeys.sessions.all });
-        },
-    });
+  return useMutation({
+    mutationFn: (sessionId: string) => historyApi.deleteSession(sessionId),
+    onSuccess: () => {
+      // Invalidate all session queries to ensure fresh data
+      queryClient.invalidateQueries({ queryKey: queryKeys.sessions.all });
+    },
+  });
 }

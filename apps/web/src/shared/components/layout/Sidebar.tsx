@@ -1,10 +1,5 @@
 import { Fragment, type ReactNode } from 'react';
-import {
-  Dialog,
-  DialogPanel,
-  Transition,
-  TransitionChild,
-} from '@headlessui/react';
+import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react';
 import { clsx } from 'clsx';
 import { Badge } from '@/shared/components/ui/Badge';
 
@@ -36,11 +31,7 @@ function CloseIcon({ className }: { className?: string }) {
       stroke="currentColor"
       aria-hidden="true"
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M6 18L18 6M6 6l12 12"
-      />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
   );
 }
@@ -80,11 +71,7 @@ function NavLink({ item, onNavigate }: { item: NavItem; onNavigate?: () => void 
       )}
       <span className="flex-1">{item.label}</span>
       {item.badge !== undefined && (
-        <Badge
-          variant={item.active ? 'primary' : 'default'}
-          size="sm"
-          className="ml-auto"
-        >
+        <Badge variant={item.active ? 'primary' : 'default'} size="sm" className="ml-auto">
           {item.badge}
         </Badge>
       )}
@@ -115,13 +102,7 @@ function SidebarContent({
   );
 }
 
-export function Sidebar({
-  items,
-  isOpen,
-  onClose,
-  footer,
-  className,
-}: SidebarProps) {
+export function Sidebar({ items, isOpen, onClose, footer }: SidebarProps) {
   return (
     <>
       {/* Mobile sidebar - slide-out drawer */}
@@ -174,9 +155,7 @@ export function Sidebar({
                 <div className="flex grow flex-col overflow-y-auto bg-neutral-900 border-r border-neutral-800 safe-area-inset">
                   {/* Mobile sidebar header */}
                   <div className="flex h-14 items-center border-b border-neutral-800 px-4 bg-neutral-900/50">
-                    <span className="text-base font-semibold text-white">
-                      Navigation
-                    </span>
+                    <span className="text-base font-semibold text-white">Navigation</span>
                   </div>
                   <SidebarContent items={items} footer={footer} onNavigate={onClose} />
                 </div>

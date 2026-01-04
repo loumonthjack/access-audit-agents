@@ -8,43 +8,43 @@ import { env, isSaasMode } from './env';
 /**
  * Configure AWS Amplify with Cognito settings
  * This should be called once at application startup, before rendering
- * 
+ *
  * Only configures Amplify when running in 'saas' auth mode.
  * In 'self-hosted' mode, this function is a no-op.
  */
 export function configureAmplify(): void {
-    if (!isSaasMode()) {
-        // Skip Amplify configuration for self-hosted mode
-        return;
-    }
+  if (!isSaasMode()) {
+    // Skip Amplify configuration for self-hosted mode
+    return;
+  }
 
-    const { userPoolId, clientId, region } = env.cognito;
+  const { userPoolId, clientId, region } = env.cognito;
 
-    // Validate required Cognito configuration
-    if (!userPoolId || !clientId) {
-        console.warn(
-            'Amplify configuration skipped: Missing Cognito userPoolId or clientId. ' +
-            'Set VITE_COGNITO_USER_POOL_ID and VITE_COGNITO_CLIENT_ID environment variables.'
-        );
-        return;
-    }
+  // Validate required Cognito configuration
+  if (!userPoolId || !clientId) {
+    console.warn(
+      'Amplify configuration skipped: Missing Cognito userPoolId or clientId. ' +
+        'Set VITE_COGNITO_USER_POOL_ID and VITE_COGNITO_CLIENT_ID environment variables.'
+    );
+    return;
+  }
 
-    Amplify.configure({
-        Auth: {
-            Cognito: {
-                userPoolId,
-                userPoolClientId: clientId,
-                signUpVerificationMethod: 'code',
-                loginWith: {
-                    email: true,
-                },
-            },
+  Amplify.configure({
+    Auth: {
+      Cognito: {
+        userPoolId,
+        userPoolClientId: clientId,
+        signUpVerificationMethod: 'code',
+        loginWith: {
+          email: true,
         },
-    });
+      },
+    },
+  });
 
-    if (env.isDev) {
-        console.log(`Amplify configured for Cognito in region: ${region}`);
-    }
+  if (env.isDev) {
+    console.log(`Amplify configured for Cognito in region: ${region}`);
+  }
 }
 
 /**
@@ -52,10 +52,10 @@ export function configureAmplify(): void {
  * Useful for conditional logic that depends on Amplify being available
  */
 export function isAmplifyConfigured(): boolean {
-    if (!isSaasMode()) {
-        return false;
-    }
+  if (!isSaasMode()) {
+    return false;
+  }
 
-    const { userPoolId, clientId } = env.cognito;
-    return Boolean(userPoolId && clientId);
+  const { userPoolId, clientId } = env.cognito;
+  return Boolean(userPoolId && clientId);
 }

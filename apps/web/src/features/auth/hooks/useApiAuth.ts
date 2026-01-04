@@ -10,7 +10,7 @@ import { apiClient } from '@/shared/lib/api/client';
 /**
  * Hook to configure the API client with the current auth token
  * Should be called once at the app root level
- * 
+ *
  * @example
  * ```tsx
  * function App() {
@@ -20,24 +20,23 @@ import { apiClient } from '@/shared/lib/api/client';
  * ```
  */
 export function useApiAuth(): void {
-    const { getToken, isAuthenticated, isLoading } = useAuth();
-    const wasAuthenticated = useRef(false);
+  const { getToken, isAuthenticated, isLoading } = useAuth();
+  const wasAuthenticated = useRef(false);
 
-    useEffect(() => {
-        // Always set the token provider - it will return the token if available
-        apiClient.setTokenProvider(getToken);
-    }, [getToken, isAuthenticated, isLoading]);
+  useEffect(() => {
+    // Always set the token provider - it will return the token if available
+    apiClient.setTokenProvider(getToken);
+  }, [getToken, isAuthenticated, isLoading]);
 
-    // Track authentication state to detect logout (not initial loading)
-    useEffect(() => {
-        // Only clear token provider on actual logout (was authenticated, now not)
-        if (wasAuthenticated.current && !isAuthenticated && !isLoading) {
-            apiClient.setTokenProvider(async () => null);
-        }
-        // Update ref after checking
-        if (!isLoading) {
-            wasAuthenticated.current = isAuthenticated;
-        }
-    }, [isAuthenticated, isLoading]);
+  // Track authentication state to detect logout (not initial loading)
+  useEffect(() => {
+    // Only clear token provider on actual logout (was authenticated, now not)
+    if (wasAuthenticated.current && !isAuthenticated && !isLoading) {
+      apiClient.setTokenProvider(async () => null);
+    }
+    // Update ref after checking
+    if (!isLoading) {
+      wasAuthenticated.current = isAuthenticated;
+    }
+  }, [isAuthenticated, isLoading]);
 }
-

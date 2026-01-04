@@ -13,10 +13,7 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
-export class ErrorBoundary extends Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -41,12 +38,7 @@ export class ErrorBoundary extends Component<
         return this.props.fallback;
       }
 
-      return (
-        <DefaultErrorFallback
-          error={this.state.error}
-          onReset={this.handleReset}
-        />
-      );
+      return <DefaultErrorFallback error={this.state.error} onReset={this.handleReset} />;
     }
 
     return this.props.children;
@@ -60,10 +52,7 @@ interface DefaultErrorFallbackProps {
 
 function DefaultErrorFallback({ error, onReset }: DefaultErrorFallbackProps) {
   return (
-    <div
-      className="flex min-h-[400px] flex-col items-center justify-center p-8"
-      role="alert"
-    >
+    <div className="flex min-h-[400px] flex-col items-center justify-center p-8" role="alert">
       <div className="mx-auto max-w-md text-center">
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-error-100">
           <svg
@@ -83,13 +72,10 @@ function DefaultErrorFallback({ error, onReset }: DefaultErrorFallbackProps) {
           </svg>
         </div>
 
-        <h2 className="mb-2 text-xl font-semibold text-neutral-900">
-          Something went wrong
-        </h2>
+        <h2 className="mb-2 text-xl font-semibold text-neutral-900">Something went wrong</h2>
 
         <p className="mb-6 text-neutral-600">
-          An unexpected error occurred. Please try again or contact support if
-          the problem persists.
+          An unexpected error occurred. Please try again or contact support if the problem persists.
         </p>
 
         {error && (
@@ -134,10 +120,7 @@ export function ErrorFallback({
   showRefresh = true,
 }: ErrorFallbackProps) {
   return (
-    <div
-      className="flex min-h-[300px] flex-col items-center justify-center p-8"
-      role="alert"
-    >
+    <div className="flex min-h-[300px] flex-col items-center justify-center p-8" role="alert">
       <div className="mx-auto max-w-md text-center">
         <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-error-100">
           <svg
@@ -162,11 +145,7 @@ export function ErrorFallback({
 
         <div className="flex justify-center gap-3">
           {showRefresh && (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => window.location.reload()}
-            >
+            <Button variant="secondary" size="sm" onClick={() => window.location.reload()}>
               Refresh
             </Button>
           )}
