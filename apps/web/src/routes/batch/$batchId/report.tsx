@@ -134,7 +134,11 @@ export function BatchReportPage() {
         >
           View All Scans
         </Button>
-        <Button size="sm" onClick={() => navigate({ to: '/batch', search: { startScan: undefined } })} className="w-full sm:w-auto">
+        <Button
+          size="sm"
+          onClick={() => navigate({ to: '/batch', search: { startScan: undefined } })}
+          className="w-full sm:w-auto"
+        >
           Start New Batch Scan
         </Button>
       </div>

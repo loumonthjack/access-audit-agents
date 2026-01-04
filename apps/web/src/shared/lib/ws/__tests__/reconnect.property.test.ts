@@ -10,11 +10,7 @@
 
 import { describe, it, expect } from 'vitest';
 import * as fc from 'fast-check';
-import {
-  calculateBackoffDelay,
-  canReconnect,
-  getBackoffSequence,
-} from '../reconnect';
+import { calculateBackoffDelay, canReconnect, getBackoffSequence } from '../reconnect';
 import { DEFAULT_RECONNECT_CONFIG } from '../types';
 
 describe('Property 19: Reconnection with Exponential Backoff', () => {

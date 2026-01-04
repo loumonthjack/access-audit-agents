@@ -74,11 +74,11 @@ function transformApiResponse(response: ApiReportResponse): RemediationReport {
     screenshot: v.screenshot,
     fix: v.fix
       ? {
-        type: v.fix.type as NonNullable<ReportViolation['fix']>['type'],
-        beforeHtml: v.fix.beforeHtml,
-        afterHtml: v.fix.afterHtml,
-        reasoning: v.fix.reasoning,
-      }
+          type: v.fix.type as NonNullable<ReportViolation['fix']>['type'],
+          beforeHtml: v.fix.beforeHtml,
+          afterHtml: v.fix.afterHtml,
+          reasoning: v.fix.reasoning,
+        }
       : undefined,
   }));
 

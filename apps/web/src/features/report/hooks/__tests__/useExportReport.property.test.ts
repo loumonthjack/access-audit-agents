@@ -114,17 +114,23 @@ const remediationReportArbitrary: fc.Arbitrary<RemediationReport> = fc
     const fixesArb =
       fixCount === 0
         ? fc.constant([] as AppliedFix[])
-        : fc.tuple(...Array.from({ length: fixCount }, (_, i) => appliedFixArbitrary(i))).map(arr => [...arr]);
+        : fc
+            .tuple(...Array.from({ length: fixCount }, (_, i) => appliedFixArbitrary(i)))
+            .map((arr) => [...arr]);
     const skippedArb =
       skippedCount === 0
         ? fc.constant([] as SkippedViolation[])
-        : fc.tuple(...Array.from({ length: skippedCount }, (_, i) => skippedViolationArbitrary(i))).map(arr => [...arr]);
+        : fc
+            .tuple(...Array.from({ length: skippedCount }, (_, i) => skippedViolationArbitrary(i)))
+            .map((arr) => [...arr]);
     const humanReviewArb =
       humanReviewCount === 0
         ? fc.constant([] as HumanReviewItem[])
-        : fc.tuple(
-          ...Array.from({ length: humanReviewCount }, (_, i) => humanReviewItemArbitrary(i))
-        ).map(arr => [...arr]);
+        : fc
+            .tuple(
+              ...Array.from({ length: humanReviewCount }, (_, i) => humanReviewItemArbitrary(i))
+            )
+            .map((arr) => [...arr]);
 
     return fc.record({
       sessionId: fc.uuid(),
