@@ -82,7 +82,7 @@ cd apps/web && npm install && npm run dev
 
 - Frontend: http://localhost:5173
 - API: http://localhost:3003
-- Database: localhost:5434
+- Database: localhost:5432
 
 ### Environment Setup
 
