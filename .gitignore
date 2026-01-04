@@ -30,3 +30,8 @@ dist-ssr
 # CDK outputs (contains synthesized templates with env vars)
 cdk.out/
 infra/cdk.out/
+
+# Prevent nested lockfiles in workspaces
+apps/*/package-lock.json
+packages/*/package-lock.json
+scripts/package-lock.json
